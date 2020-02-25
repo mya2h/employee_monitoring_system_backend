@@ -1,0 +1,22 @@
+{
+  "name": "employee-monitoring-system-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://gitlab.com/employee-monitoring-system/employee-monitoring-system-backend.git"
+  },
+  "author": "melkam beyene",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://gitlab.com/employee-monitoring-system/employee-monitoring-system-backend/issues"
+  },
+  "homepage": "https://gitlab.com/employee-monitoring-system/employee-monitoring-system-backend#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
