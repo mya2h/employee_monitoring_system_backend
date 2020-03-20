@@ -1,11 +1,15 @@
 const mongoose = require('mongoose');
 
-const UserSchema = mongoose.Schema({
-    user_id: {
+const TrackSchema = mongoose.Schema({
+    activity_id: {
         type:String,
         require: true
     },
-    username:{
+    activity_name:{
+        type:String,
+        require: true
+    },
+    activity_type:{
         type:String,
         require: true
     },
@@ -15,4 +19,4 @@ const UserSchema = mongoose.Schema({
     }
 });
 
-const User = module.exports = mongoose.model('User',UserSchema);
+const Track = module.exports = mongoose.model('User',TrackSchema);
