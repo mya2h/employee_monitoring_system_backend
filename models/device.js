@@ -1,10 +1,18 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
+
 const DeviceSchema = mongoose.Schema({
-   device_id:{
-       type: String,    
-   },
-   device_name:{
-        type: String,
-   }
-})
-module.exports = mongoose.model("device", DeviceSchema)
+  deviceName: {
+    type: String,
+    require: true,
+  },
+  deviceUser: {
+    type: String,
+    require: true,
+  },
+  created_at: {
+    type: Date,
+    default: Date.now,
+  }
+});
+
+module.exports = mongoose.model("Device", DeviceSchema);
