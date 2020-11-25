@@ -1,17 +1,16 @@
 const express = require("express");
 const app = express();
 const PORT = process.env.PORT || 5000;
-const mongoUtil = require("./dao/dbConnection");
-const userRouter = require("./routes/user");
-var flash = require('express-flash');
-
-var passport = require('passport');
-var session = require('express-session')
+//const mongoUtil = require("./dao/dbConnection");
+var flash = require("express-flash");
+var passport = require("passport");
+var session = require("express-session");
 
 const bodyparser = require("body-parser");
 const cors = require("cors");
 const path = require("path");
-
+const connectDB = require("./config/db");
+connectDB();
 // mongoUtil.connectToServer(function (err, client) {
 //   if (err) console.log(err);
 //   console.log("Database connected");
@@ -36,12 +35,12 @@ app.use((req, res, next) => {
 
   next();
 });
-passport.serializeUser(function(user, done) {
+passport.serializeUser(function (user, done) {
   done(null, user.id);
 });
 
-passport.deserializeUser(function(id, done) {
-  User.findById(id, function(err, user) {
+passport.deserializeUser(function (id, done) {
+  User.findById(id, function (err, user) {
     done(err, user);
   });
 });
@@ -54,14 +53,20 @@ app.use(express.urlencoded({ extended: false }));
 app.use(bodyparser.json());
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(session({ secret: 'session secret key' }));
-
+app.use(session({ secret: "session secret key" }));
 
 app.get("/", (req, res) => {
   res.send("Employe monitoring API");
 });
+app.post("/", (req, res) => {
+  console.log(req.body);
+  res.status(200).json({ msg: req.body });
+});
 
-app.use("/api/users", userRouter);
+//routes
+app.use("/api/users", require("./routes/user"));
+app.use("/api/deviceUsers", require("./routes/deviceUsers"));
+
 app.listen(PORT, () => {
   console.log(`The app is running on port ${PORT}`);
 });
