@@ -2,8 +2,6 @@ const express = require("express");
 const app = express();
 var fs = require('fs');
 const PORT = process.env.PORT || 5000;
-
-const mongoUtil = require("./dao/dbConnection");
 const userRouter = require("./routes/user");
 const deviceRouter = require("./routes/device");
 const categoryRouter = require("./routes/category");
@@ -65,17 +63,6 @@ app.use(session({ secret: "session secret key" }));
 app.get("/", (req, res) => {
   res.send("Employe monitoring API");
 });
-<<<<<<< HEAD
-app.post('/upload', function(req, res, next){
-  // assuming <input type="file" name="upload">
-
-  var path = req.files.upload.path;
-  var name = req.files.upload.name;
-
-  // copy...
-});
-app.use("/api/users", userRouter);
-=======
 app.post("/", (req, res) => {
   console.log(req.body);
   res.status(200).json({ msg: req.body });
@@ -85,7 +72,6 @@ app.post("/", (req, res) => {
 app.use("/api/users", require("./routes/user"));
 app.use("/api/deviceUsers", require("./routes/deviceUsers"));
 
->>>>>>> ed548b117507484fc06462060470f3c4ce884a22
 app.listen(PORT, () => {
   console.log(`The app is running on port ${PORT}`);
 });

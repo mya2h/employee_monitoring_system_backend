@@ -3,7 +3,8 @@ const express = require("express");
 const jwt = require("jsonwebtoken");
 const User = require("../models/user");
 
-const config = require("../config/config");
+//const config = require("../config/config");
+
 const register = (req, res) => {
   let newUser = new User({
     userName: req.body.userName,
@@ -83,17 +84,17 @@ const login = (req, res) => {
       });
     });
 };
-module.exports.logout = (req, res) => {
+const logout = (req, res) => {
   req.logout();
   // res.redirect('/');
 };
-module.exports.getForgot = (req, res) => {
+const getForgot = (req, res) => {
   res.render("forgot", {
     user: req.user,
   });
 };
 
-module.exports.forgot = (req, res) => {
+const forgot = (req, res) => {
   async.waterfall(
     [
       function (done) {
@@ -157,7 +158,7 @@ module.exports.forgot = (req, res) => {
   );
 };
 
-module.exports.getresetwithtoken = (req, res) => {
+const getresetwithtoken = (req, res) => {
   User.findOne(
     {
       resetPasswordToken: req.params.token,
@@ -175,7 +176,7 @@ module.exports.getresetwithtoken = (req, res) => {
   );
 };
 
-module.exports.postresetwithtoken = (req, res) => {
+const postresetwithtoken = (req, res) => {
   async.waterfall(
     [
       function (done) {
@@ -281,5 +282,10 @@ const getuserByName = (req, res) => {
     login,
     profile,
     getUsers,
+    logout,
+    getForgot,
+    forgot,
+    getresetwithtoken,
+    postresetwithtoken,
     getuserByName
  }
