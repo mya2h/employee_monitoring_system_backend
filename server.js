@@ -3,6 +3,8 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 const mongoUtil = require("./dao/dbConnection");
 const userRouter = require("./routes/user");
+const deviceRouter = require("./routes/device");
+const categoryRouter = require("./routes/category");
 var flash = require('express-flash');
 
 var passport = require('passport');
@@ -65,3 +67,6 @@ app.use("/api/users", userRouter);
 app.listen(PORT, () => {
   console.log(`The app is running on port ${PORT}`);
 });
+
+app.use("/api/device", deviceRouter);
+app.use("/api/category", categoryRouter);

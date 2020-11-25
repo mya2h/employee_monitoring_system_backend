@@ -1,11 +1,11 @@
 const mongoose = require("mongoose");
 
 const DeviceSchema = mongoose.Schema({
-  devicename: {
+  deviceName: {
     type: String,
     require: true,
   },
-  deviceuser: {
+  deviceUser: {
     type: String,
     require: true,
   },
