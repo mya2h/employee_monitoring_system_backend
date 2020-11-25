@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+var fs = require('fs');
 const PORT = process.env.PORT || 5000;
 const mongoUtil = require("./dao/dbConnection");
 const userRouter = require("./routes/user");
@@ -46,7 +47,14 @@ app.use(passport.session());
 app.get("/", (req, res) => {
   res.send("Employe monitoring API");
 });
+app.post('/upload', function(req, res, next){
+  // assuming <input type="file" name="upload">
 
+  var path = req.files.upload.path;
+  var name = req.files.upload.name;
+
+  // copy...
+});
 app.use("/api/users", userRouter);
 app.listen(PORT, () => {
   console.log(`The app is running on port ${PORT}`);
