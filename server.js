@@ -2,13 +2,13 @@ const express = require("express");
 const app = express();
 var fs = require('fs');
 const PORT = process.env.PORT || 5000;
-<<<<<<< HEAD
+
 
 // const mongoUtil = require("./dao/dbConnection");
 const userRouter = require("./routes/user");
-=======
+
 const indexRouter = require("./routes/index");
->>>>>>> 9f36f085d000cd2fb3d48c155bc2b5e6ca244369
+
 const deviceRouter = require("./routes/device");
 const categoryRouter = require("./routes/category");
 const resourceRouter = require("./routes/resource");
