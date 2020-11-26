@@ -1,10 +1,15 @@
 const express = require("express");
 const app = express();
+var fs = require('fs');
 const PORT = process.env.PORT || 5000;
-//const mongoUtil = require("./dao/dbConnection");
-var flash = require("express-flash");
-var passport = require("passport");
-var session = require("express-session");
+const indexRouter = require("./routes/index");
+const deviceRouter = require("./routes/device");
+const categoryRouter = require("./routes/category");
+var flash = require('express-flash');
+var passport = require('passport');
+var session = require('express-session')
+
+
 
 const bodyparser = require("body-parser");
 const cors = require("cors");
@@ -64,9 +69,13 @@ app.post("/", (req, res) => {
 });
 
 //routes
-app.use("/api/users", require("./routes/user"));
-app.use("/api/deviceUsers", require("./routes/deviceUsers"));
+app.use("/api/v1", indexRouter);
+// app.use("/api/deviceUsers", require("./routes/deviceUsers"));
+// app.use("/api/device", deviceRouter);
+// app.use("/api/category", categoryRouter);
+
 
 app.listen(PORT, () => {
   console.log(`The app is running on port ${PORT}`);
 });
+
