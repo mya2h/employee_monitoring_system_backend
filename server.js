@@ -60,7 +60,7 @@ app.get("/", (req, res) => {
 });
 app.post("/", (req, res) => {
   console.log(req.body);
-  res.status(200).json({ msg: req.body });
+  res.status(200).json("otherthing");
 });
 
 //routes
