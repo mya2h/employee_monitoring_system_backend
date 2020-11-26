@@ -5,55 +5,55 @@ const User = require("../models/user");
 
 //const config = require("../config/config");
 
-module.exports.register = (req, res) => {
+const register = (req, res) => {
   let newUser = new User({
-    username: req.body.username,
+    userName: req.body.userName,
     email: req.body.email,
     password: req.body.password,
   });
   console.log("newUser::", newUser);
   console.log("new user password", newUser.password);
 
-  User.findOne({ username: req.body.username })
+  User.findOne({ userName: req.body.userName })
     .then((result) => {
       if (result) {
         console.log("resutl found");
-        return res.json({ success: false, result: "user already exist" });
+        return res.status(400).json({ success: false, result: "user already exist" });
       }
 
       bcrypt.genSalt(10, (err, salt) => {
         if (err)
-          return res.json({
+          return res.status(400).json({
             succes: false,
             result: err,
             message: "password hass error",
           });
         bcrypt.hash(newUser.password, salt, (err, hash) => {
-          if (err) return res.json({ succes: false, result: err });
+          if (err) return res.status(400).json({ succes: false, result: err });
           newUser.password = hash;
           console.log("password hash", newUser);
           newUser
             .save()
             .then((result) => {
-              return res.json({
+              return res.status(200).json({
                 succes: true,
                 result: result,
                 message: "user successfuly registered",
               });
             })
             .catch((err) => {
-              return res.json({ succes: false, result: err, message: "error" });
+              return res.status(400).json({ succes: false, result: err, message: "error" });
             });
         });
       });
     })
     .catch((err) => {
-      return res.json({ succes: false, result: err, message: "error" });
+      return res.status(400).json({ succes: false, result: err, message: "error" });
     });
 };
 
-module.exports.login = (req, res) => {
-  User.findOne({ username: req.body.username })
+const login = (req, res) => {
+  User.findOne({ userName: req.body.userName })
     .then((result) => {
       bcrypt.compare(req.body.password, result.password, (err, isMatch) => {
         if (err) throw err;
@@ -61,7 +61,7 @@ module.exports.login = (req, res) => {
           const token = jwt.sign(
             {
               _id: result._id,
-              username: result.username,
+              userName: result.userName,
               email: result.email,
             },
             config.secret,
@@ -84,17 +84,17 @@ module.exports.login = (req, res) => {
       });
     });
 };
-module.exports.logout = (req, res) => {
+const logout = (req, res) => {
   req.logout();
   // res.redirect('/');
 };
-module.exports.getForgot = (req, res) => {
+const getForgot = (req, res) => {
   res.render("forgot", {
     user: req.user,
   });
 };
 
-module.exports.forgot = (req, res) => {
+const forgot = (req, res) => {
   async.waterfall(
     [
       function (done) {
@@ -158,7 +158,7 @@ module.exports.forgot = (req, res) => {
   );
 };
 
-module.exports.getresetwithtoken = (req, res) => {
+const getresetwithtoken = (req, res) => {
   User.findOne(
     {
       resetPasswordToken: req.params.token,
@@ -176,7 +176,7 @@ module.exports.getresetwithtoken = (req, res) => {
   );
 };
 
-module.exports.postresetwithtoken = (req, res) => {
+const postresetwithtoken = (req, res) => {
   async.waterfall(
     [
       function (done) {
@@ -237,7 +237,7 @@ module.exports.postresetwithtoken = (req, res) => {
 };
 // /get authenticated user profile
 
-module.exports.profile = (req, res) => {
+const profile = (req, res) => {
   // console.log(req.user);
   jwt.verify(req.token, config.secret, (err, authData) => {
     if (err) {
@@ -251,7 +251,7 @@ module.exports.profile = (req, res) => {
   });
 };
 
-module.exports.getUsers = (req, res) => {
+const getUsers = (req, res) => {
   user
     .find({})
     .then((result) => {
@@ -262,14 +262,14 @@ module.exports.getUsers = (req, res) => {
       return res.json({ succes: false, result: err });
     });
 };
-module.exports.getuserByName = (req, res) => {
+const getuserByName = (req, res) => {
   user
-    .findOne({ username: req.body.username })
+    .findOne({ userName: req.body.userName })
     .then((result) => {
-      if (!req.body.username)
+      if (!req.body.userName)
         return res.json({
           succes: false,
-          message: "Please enter the username",
+          message: "Please enter the userName",
         });
       return res.json({ succes: true, result: result });
     })
@@ -277,3 +277,15 @@ module.exports.getuserByName = (req, res) => {
       return res.json({ succes: false, result: true });
     });
 };
+ module.exports = {
+    register,
+    login,
+    profile,
+    getUsers,
+    logout,
+    getForgot,
+    forgot,
+    getresetwithtoken,
+    postresetwithtoken,
+    getuserByName
+ }

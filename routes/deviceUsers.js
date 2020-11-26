@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 const config = require("config");
 const { check, validationResult } = require("express-validator");
-
 const DeviceUser = require("../models/deviceUser");
 
 router.post(
@@ -32,5 +31,14 @@ router.post(
     }
   }
 );
+router.get("/", async (req, res) => {
+  try {
+    const computerUsers = await Post.find();
+    res.json(computerUsers);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+});
 
 module.exports = router;
