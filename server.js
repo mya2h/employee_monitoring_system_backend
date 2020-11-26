@@ -2,10 +2,11 @@ const express = require("express");
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-const mongoUtil = require("./dao/dbConnection");
+// const mongoUtil = require("./dao/dbConnection");
 const userRouter = require("./routes/user");
 const deviceRouter = require("./routes/device");
 const categoryRouter = require("./routes/category");
+const resourceRouter = require("./routes/resource");
 var flash = require('express-flash');
 var passport = require('passport');
 var session = require('express-session')
@@ -70,12 +71,14 @@ app.post("/", (req, res) => {
 });
 
 //routes
-app.use("/api/users", require("./routes/user"));
+// app.use("/api/users", require("./routes/user"));
 app.use("/api/deviceUsers", require("./routes/deviceUsers"));
 
 app.listen(PORT, () => {
   console.log(`The app is running on port ${PORT}`);
 });
 
+app.use("/api/user", userRouter);
+app.use("/api/resource", resourceRouter);
 app.use("/api/device", deviceRouter);
 app.use("/api/category", categoryRouter);
