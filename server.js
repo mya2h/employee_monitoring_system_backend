@@ -2,9 +2,18 @@ const express = require("express");
 const app = express();
 var fs = require('fs');
 const PORT = process.env.PORT || 5000;
+
+
+// const mongoUtil = require("./dao/dbConnection");
+const userRouter = require("./routes/user");
+
 const indexRouter = require("./routes/index");
+
 const deviceRouter = require("./routes/device");
 const categoryRouter = require("./routes/category");
+const resourceRouter = require("./routes/resource");
+const HRRouter = require("./routes/HRpersonnel");
+const NTrackRouter = require("./routes/notTrack");
 var flash = require('express-flash');
 var passport = require('passport');
 var session = require('express-session')
@@ -65,17 +74,25 @@ app.get("/", (req, res) => {
 });
 app.post("/", (req, res) => {
   console.log(req.body);
-  res.status(200).json({ msg: req.body });
+  res.status(200).json("otherthing");
 });
 
 //routes
-app.use("/api/v1", indexRouter);
-// app.use("/api/deviceUsers", require("./routes/deviceUsers"));
-// app.use("/api/device", deviceRouter);
-// app.use("/api/category", categoryRouter);
+
+// app.use("/api/users", require("./routes/user"));
+app.use("/api/deviceUsers", require("./routes/deviceUsers"));
+
 
 
 app.listen(PORT, () => {
   console.log(`The app is running on port ${PORT}`);
 });
+
+
+app.use("/api/user", userRouter);
+app.use("/api/resource", resourceRouter);
+app.use("/api/device", deviceRouter);
+app.use("/api/category", categoryRouter);
+app.use("/api/HR", HRRouter);
+app.use("/api/NotTrack", NTrackRouter);
 

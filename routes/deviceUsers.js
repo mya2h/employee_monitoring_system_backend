@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 const config = require("config");
 const { check, validationResult } = require("express-validator");
-
 const DeviceUser = require("../models/deviceUser");
 
 router.post(
@@ -20,9 +19,12 @@ router.post(
     try {
       let deviceUser = await DeviceUser.findOne({ deviceName, userName });
       if (!deviceUser) {
-        deviceUser = new DeviceUser({ deviceName, userName });
+        const online = true;
+        deviceUser = new DeviceUser({ deviceName, userName, online });
         await deviceUser.save();
       } else {
+        deviceUser.online = true;
+        await deviceUser.save();
         console.log("deviceUser already registered.");
       }
       return res.status(200).json({ deviceUserId: deviceUser.id });
@@ -32,5 +34,14 @@ router.post(
     }
   }
 );
+router.get("/", async (req, res) => {
+  try {
+    const deviceUser = await DeviceUser.find();
+    res.json(deviceUser);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+});
 
 module.exports = router;

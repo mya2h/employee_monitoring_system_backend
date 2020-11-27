@@ -1,22 +1,26 @@
 const mongoose = require("mongoose");
 
-const TrackSchema = mongoose.Schema({
-  activity_id: {
+const HRpersonnelSchema = mongoose.Schema({
+  firstName: {
     type: String,
     require: true,
   },
-  activity_name: {
+  lastName: {
     type: String,
     require: true,
   },
-  activity_type: {
+  email: {
     type: String,
+    require: true,
+  },
+  status: {
+    type: Boolean,
     require: true,
   },
   created_at: {
     type: Date,
     default: Date.now,
-  },
+  }
 });
 
-const Track = (module.exports = mongoose.model("User", TrackSchema));
+module.exports = mongoose.model("HRpersonnel", HRpersonnelSchema);
