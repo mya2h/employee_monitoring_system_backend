@@ -12,6 +12,8 @@ const indexRouter = require("./routes/index");
 const deviceRouter = require("./routes/device");
 const categoryRouter = require("./routes/category");
 const resourceRouter = require("./routes/resource");
+const HRRouter = require("./routes/HRpersonnel");
+
 var flash = require('express-flash');
 var passport = require('passport');
 var session = require('express-session')
@@ -91,4 +93,5 @@ app.use("/api/user", userRouter);
 app.use("/api/resource", resourceRouter);
 app.use("/api/device", deviceRouter);
 app.use("/api/category", categoryRouter);
+app.use("/api/HR", HRRouter);
 

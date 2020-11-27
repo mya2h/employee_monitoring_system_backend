@@ -24,7 +24,7 @@ module.exports.findById = (req, res) => {
 
   module.exports.findAll = (req, res) => {
     HRpersonnel.find()
-    //   .sort({ devicename: -1 })
+      .sort({firstName: -1 })
       .then((hrs) => {
         res.status(200).send(hrs);
       })
@@ -41,14 +41,15 @@ module.exports.findById = (req, res) => {
         email = req.body.email;
     if (!firstName || !lastName || !email) {
       return res.status(400).send({
-        message: "HRpersonnel name is not empty",
+        message: "please fill correctly",
       });
     }
 
     const hr = new HRpersonnel({
         firstName: firstName,
         lastName:lastName,
-        email:email
+        email:email,
+        status:0
     });
 
     hr
@@ -61,6 +62,39 @@ module.exports.findById = (req, res) => {
           message: err.message || "Some error occurred while creating the new HRpersonnel.",
         });
       });
+  };
+
+  module.exports.activate = (req, res) => {
+    HRpersonnel.findById(req.params.id)
+    .then(hr => {
+        
+        hr.status = 1;
+        hr.save()
+        .then(hr =>{
+            res.send({message: 'HR activated successfully',status:'success', hr: hr})
+        })
+            .catch((err) => {
+        res.status(500).send({
+          message: err.message || "Error Occured",
+        });
+      });
+    })
+  };
+  module.exports.deactivate = (req, res) => {
+    HRpersonnel.findById(req.params.id)
+    .then(hr => {
+        
+        hr.status = 0;
+        hr.save()
+        .then(hr =>{
+            res.send({message: 'HR deactivated successfully',status:'success', hr: hr})
+        })
+            .catch((err) => {
+        res.status(500).send({
+          message: err.message || "Error Occured",
+        });
+      });
+    })
   };
 
  

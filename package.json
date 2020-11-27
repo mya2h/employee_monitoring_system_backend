@@ -30,17 +30,12 @@
     "express-validator": "^6.7.0",
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^3.6.0",
-<<<<<<< HEAD
     "mongoose": "^5.10.13",
     "multer": "^1.4.2",
     "nodemailer": "^6.4.15",
     "passport": "^0.4.1",
-    "passport-local": "^1.0.0"
-=======
-    "mongoose": "^5.9.27",
-    "multer": "^1.4.2",
-    "nodemon": "^2.0.6",
-    "passport": "^0.4.1"
->>>>>>> 9f36f085d000cd2fb3d48c155bc2b5e6ca244369
+    "passport-local": "^1.0.0",
+    "nodemon": "^2.0.6"
+
   }
 }

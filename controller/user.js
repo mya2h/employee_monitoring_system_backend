@@ -2,24 +2,32 @@
 const express = require("express");
 const jwt = require("jsonwebtoken");
 const User = require("../models/user");
+const config = require('../config/default');
 
 //const config = require("../config/config");
 
 const register = (req, res) => {
   let newUser = new User({
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
     userName: req.body.userName,
     email: req.body.email,
     password: req.body.password,
+    // confirm_password: req.body.confirm_password,
   });
-  console.log("newUser::", newUser);
-  console.log("new user password", newUser.password);
 
+  if(req.body.password == req.body.confirm_password){
   User.findOne({ userName: req.body.userName })
     .then((result) => {
       if (result) {
-        console.log("resutl found");
-        return res.status(400).json({ success: false, result: "user already exist" });
+        return res.status(400).json({ success: false, result: "user name already exist" });
       }
+
+      User.findOne({ email: req.body.email })
+      .then((result) => {
+        if (result) {
+          return res.status(400).json({ success: false, result: "email already exist" });
+        }
 
       bcrypt.genSalt(10, (err, salt) => {
         if (err)
@@ -50,7 +58,17 @@ const register = (req, res) => {
     .catch((err) => {
       return res.status(400).json({ succes: false, result: err, message: "error" });
     });
+  })
+  .catch((err) => {
+    return res.status(400).json({ succes: false, result: err, message: "error" });
+  });
+}else{
+  return res.status(409).json({
+      message:'password not match!!!!'
+  });
+}
 };
+
 
 const login = (req, res) => {
   User.findOne({ userName: req.body.userName })
@@ -73,14 +91,14 @@ const login = (req, res) => {
             message: "logged in",
           });
         } else {
-          return res.json({ message: "Wrong password" });
+          return res.json({ message: "Auth failed" });
         }
       });
     })
     .catch((err) => {
       res.json({
         result: err,
-        message: "user not found",
+        message: "Auth failed",
       });
     });
 };

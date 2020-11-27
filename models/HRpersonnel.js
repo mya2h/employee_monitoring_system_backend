@@ -13,6 +13,10 @@ const HRpersonnelSchema = mongoose.Schema({
     type: String,
     require: true,
   },
+  status: {
+    type: Boolean,
+    require: true,
+  },
   created_at: {
     type: Date,
     default: Date.now,

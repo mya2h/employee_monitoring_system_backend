@@ -10,8 +10,8 @@ const ResourceSchema = mongoose.Schema({
     require: true,
   },
   resourcePath: {
-    type: String,
-    require: true,
+    type: String
+    
   },
   created_at: {
     type: Date,
