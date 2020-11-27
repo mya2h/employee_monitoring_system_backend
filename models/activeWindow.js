@@ -1,17 +1,21 @@
 const mongoose = require("mongoose");
 
-const changedFileSchema = new mongoose.Schema({
+const activeWindow = new mongoose.Schema({
   deviceUser: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "deviceUser",
   },
-  name: {
+  app: {
     type: String,
     require: true,
   },
-  changedMode: {
+  title: {
     type: String,
     require: true,
+  },
+  duration: {
+    type: Number,
+    default: 0,
   },
   date: {
     type: Date,
@@ -19,4 +23,4 @@ const changedFileSchema = new mongoose.Schema({
   },
 });
 
-module.exports = User = mongoose.model("changedFile", changedFileSchema);
+module.exports = User = mongoose.model("activeWindow", activeWindow);
