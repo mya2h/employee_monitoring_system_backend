@@ -8,6 +8,14 @@ const userSchema = new mongoose.Schema({
     type: String,
     require: true,
   },
+  online: {
+    type: Boolean,
+    default: false,
+  },
+  date: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
 module.exports = User = mongoose.model("deviceUser", userSchema);

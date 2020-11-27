@@ -19,9 +19,12 @@ router.post(
     try {
       let deviceUser = await DeviceUser.findOne({ deviceName, userName });
       if (!deviceUser) {
-        deviceUser = new DeviceUser({ deviceName, userName });
+        const online = true;
+        deviceUser = new DeviceUser({ deviceName, userName, online });
         await deviceUser.save();
       } else {
+        deviceUser.online = true;
+        await deviceUser.save();
         console.log("deviceUser already registered.");
       }
       return res.status(200).json({ deviceUserId: deviceUser.id });
@@ -33,8 +36,8 @@ router.post(
 );
 router.get("/", async (req, res) => {
   try {
-    const computerUsers = await Post.find();
-    res.json(computerUsers);
+    const deviceUser = await DeviceUser.find();
+    res.json(deviceUser);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server Error");
