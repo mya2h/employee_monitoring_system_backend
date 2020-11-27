@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const userSchema = new mongoose.Schema({
+const deviceUserSchema = new mongoose.Schema({
   deviceName: {
     type: String,
     required: true,
@@ -18,4 +18,4 @@ const userSchema = new mongoose.Schema({
   },
 });
 
-module.exports = User = mongoose.model("deviceUser", userSchema);
+module.exports = User = mongoose.model("deviceUser", deviceUserSchema);
