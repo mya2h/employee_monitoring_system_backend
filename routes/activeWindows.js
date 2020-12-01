@@ -42,20 +42,26 @@ router.post(
 );
 
 //getting a changed file
-// router.get("/today", async (req, res) => {
-//   try {
-//       const {date} = req.body;
-//       date = date.getDate();
-//       const today = new Date().getDate();
-//     const changedFiles = await ChangedFile.find({date.getDate(): Date().getDate()});
-//     changedFiles.map((changedFile) =>
-//       changedFile.populate("deviceUser", ["deviceName", "userName"])
-//     );
-//     res.json(changedFiles);
-//   } catch (err) {
-//     console.error(err.message);
-//     res.status(500).send("Server Error");
-//   }
-// });
+router.get(
+  "/:date/:userName",
+  [
+    check("date", "the date is required").not().isEmpty(),
+    check("userName", "the userName is required").not().isEmpty(),
+  ],
+  async (req, res) => {
+    try {
+      const { date, userName } = req.params;
+      console.log(date, userName);
+      const today = new Date().getDate();
+      const activeWindows = await ActiveWindow.find({
+        date,
+      }).populate("deviceUser", ["macAddress", "deviceName", "userName"]);
+      res.json(activeWindows);
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send("Server Error");
+    }
+  }
+);
 
 module.exports = router;
