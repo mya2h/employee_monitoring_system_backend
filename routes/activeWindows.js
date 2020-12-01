@@ -16,13 +16,21 @@ router.post(
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
-    const { app, title, duration, date } = req.body;
+    let date = new Date().getDate();
+    const { deviceUser, app, title, duration } = req.body;
     try {
-      let activeWindow = await ActiveWindow.findOne({ app, title });
-      if (activeWindow.date === date) {
+      let activeWindow = await ActiveWindow.findOne({ deviceUser, app, title });
+      if (activeWindow && activeWindow.date === date) {
         activeWindow.duration += duration;
         await activeWindow.save();
       } else {
+        activeWindow = new ActiveWindow({
+          deviceUser,
+          app,
+          title,
+          duration,
+          date,
+        });
         await activeWindow.save();
       }
       return res.status(200).json(activeWindow);
@@ -34,20 +42,20 @@ router.post(
 );
 
 //getting a changed file
-router.get("/today", async (req, res) => {
-  try {
-      const {date} = req.body;
-      date = date.getDate();
-      const today = new Date().getDate();
-    const changedFiles = await ChangedFile.find({date.getDate(): Date().getDate()});
-    changedFiles.map((changedFile) =>
-      changedFile.populate("deviceUser", ["deviceName", "userName"])
-    );
-    res.json(changedFiles);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send("Server Error");
-  }
-});
+// router.get("/today", async (req, res) => {
+//   try {
+//       const {date} = req.body;
+//       date = date.getDate();
+//       const today = new Date().getDate();
+//     const changedFiles = await ChangedFile.find({date.getDate(): Date().getDate()});
+//     changedFiles.map((changedFile) =>
+//       changedFile.populate("deviceUser", ["deviceName", "userName"])
+//     );
+//     res.json(changedFiles);
+//   } catch (err) {
+//     console.error(err.message);
+//     res.status(500).send("Server Error");
+//   }
+// });
 
 module.exports = router;

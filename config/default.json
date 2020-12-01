@@ -1,4 +1,4 @@
 {
-  "mongoURI": "mongodb://localhost:27017/devConnector2",
+  "mongoURI": "mongodb://localhost:27017/employeeMonitoringSystem",
   "secretKey": "mysecretkey"
 }
