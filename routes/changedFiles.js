@@ -30,19 +30,27 @@ router.post(
 );
 
 //getting a changed file
-router.get("/", async (req, res) => {
-  try {
-    //await changedFile.remove({});
-    const changedFiles = await ChangedFile.find().populate("deviceUser", [
-      "macAddress",
-      "deviceName",
-      "userName",
-    ]);
-    res.json(changedFiles);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send("server error");
+router.get(
+  "/:date/:deviceUserId",
+  [
+    check("date", "the date is required").not().isEmpty(),
+    check("deviceUserId", "the deviceUserId is required").not().isEmpty(),
+  ],
+  async (req, res) => {
+    try {
+      const { date, deviceUserId } = req.params;
+      console.log(date, deviceUserId);
+      //await changedFile.remove({});
+      const changedFiles = await ChangedFile.find({
+        date,
+        deviceUser: deviceUserId,
+      }).populate("deviceUser", ["macAddress", "deviceName", "userName"]);
+      res.json(changedFiles);
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send("server error");
+    }
   }
-});
+);
 
 module.exports = router;

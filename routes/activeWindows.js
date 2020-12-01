@@ -43,18 +43,19 @@ router.post(
 
 //getting a changed file
 router.get(
-  "/:date/:userName",
+  "/:date/:deviceUserId",
   [
     check("date", "the date is required").not().isEmpty(),
-    check("userName", "the userName is required").not().isEmpty(),
+    check("deviceUserId", "the deviceUserId is required").not().isEmpty(),
   ],
   async (req, res) => {
     try {
-      const { date, userName } = req.params;
-      console.log(date, userName);
+      const { date, deviceUserId } = req.params;
+      console.log(date, deviceUserId);
       const today = new Date().getDate();
       const activeWindows = await ActiveWindow.find({
         date,
+        deviceUser: deviceUserId,
       }).populate("deviceUser", ["macAddress", "deviceName", "userName"]);
       res.json(activeWindows);
     } catch (err) {
