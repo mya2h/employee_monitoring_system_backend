@@ -1,17 +1,13 @@
 const mongoose = require("mongoose");
 
-const ResourceSchema = mongoose.Schema({
-  resourceName: {
+const NotTrackSchema = mongoose.Schema({
+  deviceUser_Id: {
     type: String,
     require: true,
   },
-  resourceType: {
+  resource_Id: {
     type: String,
     require: true,
-  },
-  resourcePath: {
-    type: String
-    
   },
   created_at: {
     type: Date,
@@ -19,4 +15,4 @@ const ResourceSchema = mongoose.Schema({
   }
 });
 
-module.exports = mongoose.model("Resource", ResourceSchema);
+module.exports = mongoose.model("NotTrack", NotTrackSchema);

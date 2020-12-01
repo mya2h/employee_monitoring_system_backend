@@ -5,6 +5,14 @@ const UserSchema = mongoose.Schema({
     type: String,
     require: true,
   },
+  firstName: {
+    type: String,
+    require: true,
+  },
+  lastName: {
+    type: String,
+    require: true,
+  },
   created_at: {
     type: Date,
     default: Date.now,
@@ -14,6 +22,10 @@ const UserSchema = mongoose.Schema({
     require: true,
   },
   password: {
+    type: String,
+    require: true,
+  },
+  confirm_password: {
     type: String,
     require: true,
   },
