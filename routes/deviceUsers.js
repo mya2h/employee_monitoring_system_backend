@@ -7,6 +7,7 @@ const DeviceUser = require("../models/deviceUser");
 router.post(
   "/",
   [
+    check("macAddress", "the macAddress is required").not().isEmpty(),
     check("deviceName", "the deviceName is required").not().isEmpty(),
     check("userName", "the user name is required").not().isEmpty(),
   ],
@@ -15,19 +16,26 @@ router.post(
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
-    const { deviceName, userName } = req.body;
+    const { macAddress, deviceName, userName } = req.body;
     try {
-      let deviceUser = await DeviceUser.findOne({ deviceName, userName });
+      let deviceUser = await DeviceUser.findOne({
+        macAddress,
+      });
       if (!deviceUser) {
         const online = true;
-        deviceUser = new DeviceUser({ deviceName, userName, online });
+        deviceUser = new DeviceUser({
+          macAddress,
+          deviceName,
+          userName,
+          online,
+        });
         await deviceUser.save();
       } else {
         deviceUser.online = true;
         await deviceUser.save();
         console.log("deviceUser already registered.");
       }
-      return res.status(200).json({ deviceUserId: deviceUser.id });
+      return res.status(200).json(deviceUser);
     } catch (error) {
       console.error(error.message);
       res.status(500).send("Server error");

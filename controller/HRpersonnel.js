@@ -39,7 +39,8 @@ module.exports.findById = (req, res) => {
         firstName = req.body.firstName;
         lastName = req.body.lastName;
         email = req.body.email;
-    if (!firstName || !lastName || !email) {
+         roleType = req.body.roleType;
+    if (!firstName || !lastName || !email || !roleType) {
       return res.status(400).send({
         message: "please fill correctly",
       });

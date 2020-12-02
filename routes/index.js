@@ -4,6 +4,8 @@ const userController=require("../controller/user")
 const categoryController = require("../controller/category");
 const deviceController=require("../controller/device")
 const suspiciousController=require("../controller/suspiciousActivities")
+const HRController=require("../controller/HRpersonnel")
+
 
 // User Routes
 
@@ -33,6 +35,15 @@ router.post("/device/register", deviceController.register);
 
 
 // Device Users Routes
+
+
+// Hr Personnel Routes
+
+router.get("/hr/allusers", HRController.findAll);
+router.post("/hr/register", HRController.register);
+router.put("/hr/activate/:id",HRController.activate);
+router.put("/hr/deactivate/:id",HRController.deactivate);
+
 
 
 
