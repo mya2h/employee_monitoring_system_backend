@@ -13,6 +13,10 @@ const HRpersonnelSchema = mongoose.Schema({
     type: String,
     require: true,
   },
+  roleType: {
+    type: String,
+    require: true,
+  },
   status: {
     type: Boolean,
     require: true,

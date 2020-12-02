@@ -1,5 +1,9 @@
 const mongoose = require("mongoose");
 const deviceUserSchema = new mongoose.Schema({
+  macAddress: {
+    type: String,
+    required: true,
+  },
   deviceName: {
     type: String,
     required: true,
