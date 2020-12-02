@@ -5,15 +5,15 @@ const PORT = process.env.PORT || 5000;
 
 
 // const mongoUtil = require("./dao/dbConnection");
-const userRouter = require("./routes/user");
+// const userRouter = require("./routes/user");
 
 const indexRouter = require("./routes/index");
 
-const deviceRouter = require("./routes/device");
-const categoryRouter = require("./routes/category");
-const resourceRouter = require("./routes/resource");
-const HRRouter = require("./routes/HRpersonnel");
-const NTrackRouter = require("./routes/notTrack");
+// const deviceRouter = require("./routes/device");
+// const categoryRouter = require("./routes/category");
+// const resourceRouter = require("./routes/resource");
+// const HRRouter = require("./routes/HRpersonnel");
+// const NTrackRouter = require("./routes/notTrack");
 var flash = require('express-flash');
 var passport = require('passport');
 var session = require('express-session')
@@ -79,8 +79,10 @@ app.post("/", (req, res) => {
 
 //routes
 
+app.use("/api/v1",indexRouter);
+
 // app.use("/api/users", require("./routes/user"));
-app.use("/api/deviceUsers", require("./routes/deviceUsers"));
+// app.use("/api/deviceUsers", require("./routes/deviceUsers"));
 
 
 
@@ -89,10 +91,10 @@ app.listen(PORT, () => {
 });
 
 
-app.use("/api/user", userRouter);
-app.use("/api/resource", resourceRouter);
-app.use("/api/device", deviceRouter);
-app.use("/api/category", categoryRouter);
-app.use("/api/HR", HRRouter);
-app.use("/api/NotTrack", NTrackRouter);
+// app.use("/api/user", userRouter);
+// app.use("/api/resource", resourceRouter);
+// app.use("/api/device", deviceRouter);
+// app.use("/api/category", categoryRouter);
+// app.use("/api/HR", HRRouter);
+// app.use("/api/NotTrack", NTrackRouter);
 
