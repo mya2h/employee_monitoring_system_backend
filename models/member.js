@@ -1,11 +1,15 @@
 const mongoose = require("mongoose");
 
-const NotTrackSchema = mongoose.Schema({
-  deviceUser_Id: {
+const MemberSchema = mongoose.Schema({
+  categoryId: {
     type: String,
     require: true,
   },
-  resource_Id: {
+  deviceName: {
+    type: String,
+    require: true,
+  },
+  userName: {
     type: String,
     require: true,
   },
@@ -15,4 +19,4 @@ const NotTrackSchema = mongoose.Schema({
   }
 });
 
-module.exports = mongoose.model("NotTrack", NotTrackSchema);
+module.exports = mongoose.model("Member", MemberSchema);

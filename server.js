@@ -7,13 +7,14 @@ const PORT = process.env.PORT || 5000;
 // const mongoUtil = require("./dao/dbConnection");
 const userRouter = require("./routes/user");
 
-const indexRouter = require("./routes/index");
+// const indexRouter = require("./routes/index");
 
 const deviceRouter = require("./routes/device");
 const categoryRouter = require("./routes/category");
+const memberRouter = require("./routes/member");
 const resourceRouter = require("./routes/resource");
 const HRRouter = require("./routes/HRpersonnel");
-const NTrackRouter = require("./routes/notTrack");
+// const NTrackRouter = require("./routes/notTrack");
 var flash = require('express-flash');
 var passport = require('passport');
 var session = require('express-session')
@@ -25,11 +26,6 @@ const cors = require("cors");
 const path = require("path");
 const connectDB = require("./config/db");
 connectDB();
-// mongoUtil.connectToServer(function (err, client) {
-//   if (err) console.log(err);
-//   console.log("Database connected");
-//   // start the rest of your app here
-// });
 
 app.use((req, res, next) => {
   // Control access to clients
@@ -93,6 +89,7 @@ app.use("/api/user", userRouter);
 app.use("/api/resource", resourceRouter);
 app.use("/api/device", deviceRouter);
 app.use("/api/category", categoryRouter);
+app.use("/api/member", memberRouter);
 app.use("/api/HR", HRRouter);
-app.use("/api/NotTrack", NTrackRouter);
+// app.use("/api/NotTrack", NTrackRouter);
 

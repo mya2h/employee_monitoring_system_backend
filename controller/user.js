@@ -12,8 +12,8 @@ const register = (req, res) => {
     lastName: req.body.lastName,
     userName: req.body.userName,
     email: req.body.email,
-    password: req.body.password,
-    // confirm_password: req.body.confirm_password,
+    roleType:req.body.roleType,
+    password: req.body.password
   });
 
   if(req.body.password == req.body.confirm_password){

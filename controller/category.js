@@ -1,17 +1,18 @@
 var path = require('path');
 const Category = require("../models/category");
+const Member = require("../models/member");
 
 
 module.exports.findById = (req, res) => {
-    Category.findById(req.params.id)
+  Category.findById(req.params.id)
       .then((category) => {
         if (!category) {
           return res.status(404).send({
-            message: "category not found with id " + req.params.id,
+            message: "Category not found with id " + req.params.id,
           });
         }
         res.status(200).send(category);
-        console.log(category);
+        // console.log(category);
       })
       .catch((err) => {
         return res.status(500).send({
@@ -20,11 +21,9 @@ module.exports.findById = (req, res) => {
       });
   };
   
-
-
   module.exports.findAll = (req, res) => {
     Category.find()
-    //   .sort({ devicename: -1 })
+      .sort({ devicename: -1 })
       .then((categorys) => {
         res.status(200).send(categorys);
       })
@@ -35,7 +34,7 @@ module.exports.findById = (req, res) => {
       });
   };
 
-  module.exports.register = (req, res) => {
+  module.exports.registerCategory = (req, res) => {
         categoryName = req.body.categoryName;
     if (!categoryName) {
       return res.status(400).send({
@@ -59,13 +58,37 @@ module.exports.findById = (req, res) => {
       });
   };
 
-  // module.exports.update = (req , res)=>{
-  //   category.findById(req.params.id)
-  //   .then(category)
+  module.exports.registerMember = (req, res) => {
+    categoryId = req.params.id;
+    deviceName = req.body.deviceName;
+    userName = req.body.userName;
 
-  // }
+if (!deviceName || !userName) {
+  return res.status(400).send({
+    message: "member info can not be not empty",
+  });
+}
 
-  module.exports.delete = (req, res) => {
+const member = new Member({
+   categoryId: categoryId,
+    deviceName: deviceName,
+    userName: userName,
+});
+
+member
+  .save()
+  .then((data) => {
+    res.send(data);
+  })
+  .catch((err) => {
+    res.status(500).send({
+      message: err.message || "Some error occurred while creating the new member.",
+    });
+  });
+};
+
+
+  module.exports.deleteCategory = (req, res) => {
     Category.findByIdAndRemove(req.params.id)
       .then((category) => {
         if (!category) {
@@ -83,7 +106,7 @@ module.exports.findById = (req, res) => {
   };
 
 
-  module.exports.update = (req, res) => {
+  module.exports.updateCategory = (req, res) => {
     if (!req.body.categoryName) {
       res.status(400).send({
         message: "required fields cannot be empty",
@@ -101,6 +124,94 @@ module.exports.findById = (req, res) => {
       .catch((err) => {
         return res.status(404).send({
           message: "error while updating the category",
+        });
+      });
+  };
+
+  module.exports.findMemberById = (req, res) => {
+    Member.findById(req.params.id)
+        .then((member) => {
+          if (!member) {
+            return res.status(404).send({
+              message: "Member not found with id " + req.params.id,
+            });
+          }
+          res.status(200).send(member);
+          // console.log(category);
+        })
+        .catch((err) => {
+          return res.status(500).send({
+            message: "Error retrieving member with id " + req.params.id,
+          });
+        });
+    };
+
+    module.exports.findMemberByCategoryId = (req, res) => {
+      Member.find(req.params.categoryId)
+          .then((members) => {
+            if (!members) {
+              return res.status(404).send({
+                message: "Member not found with id " + req.params.categoryId,
+              });
+            }
+            res.status(200).send(members);
+          })
+          .catch((err) => {
+            return res.status(500).send({
+              message: "Error retrieving member with id " + req.params.categoryId,
+            });
+          });
+      };
+
+    module.exports.findMemberAll = (req, res) => {
+      Member.find()
+        .sort({ deviceName: -1 })
+        .then((members) => {
+          res.status(200).send(members);
+        })
+        .catch((err) => {
+          res.status(500).send({
+            message: err.message || "Error Occured",
+          });
+        });
+    };
+
+  module.exports.deleteMember = (req, res) => {
+    Member.findByIdAndRemove(req.params.id)
+      .then((member) => {
+        if (!member) {
+          return res.status(404).send({
+            message: "Member not found ",
+          });
+        }
+        res.send({ message: "Member deleted successfully!" });
+      })
+      .catch((err) => {
+        return res.status(500).send({
+          message: "Could not delete member",
+        });
+      });
+  };
+
+
+  module.exports.updateMember = (req, res) => {
+    if (!req.body.deviceName || !req.body.userName) {
+      res.status(400).send({
+        message: "required fields cannot be empty",
+      });
+    }
+    Member.findByIdAndUpdate(req.params.id, req.body, { new: true })
+      .then((member) => {
+        if (!member) {
+          return res.status(404).send({
+            message: "no member found",
+          });
+        }
+        res.status(200).send(member);
+      })
+      .catch((err) => {
+        return res.status(404).send({
+          message: "error while updating the member",
         });
       });
   };

@@ -41,7 +41,7 @@ module.exports.findById = (req, res) => {
   module.exports.register = (req, res, next) => {
     const resourceName = req.body.resourceName;
     const resourceType = req.body.resourceType;
-    const resourcePath = req.body.resourcePath;
+    
     // if (!resourceName || !resourceType || !resourcePath) {
     //   return res.status(400).send({
     //     message: "fields are required",
