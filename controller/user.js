@@ -87,11 +87,12 @@ const login = (req, res) => {
           );
           return res.json({
             token: token,
-
+            status:200,
             message: "logged in",
           });
         } else {
-          return res.json({ message: "Auth failed" });
+          return res.json({ 
+            message: "Auth failed" });
         }
       });
     })
