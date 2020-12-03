@@ -4,39 +4,23 @@ var fs = require("fs");
 const PORT = process.env.PORT || 5000;
 
 // const mongoUtil = require("./dao/dbConnection");
-// const userRouter = require("./routes/user");
+const userRouter = require("./routes/user");
 
 // const indexRouter = require("./routes/index");
-
-<<<<<<< HEAD
 const deviceRouter = require("./routes/device");
 const categoryRouter = require("./routes/category");
 const memberRouter = require("./routes/member");
 const resourceRouter = require("./routes/resource");
 const HRRouter = require("./routes/HRpersonnel");
-=======
-<<<<<<< HEAD
-// const deviceRouter = require("./routes/device");
-// const categoryRouter = require("./routes/category");
-// const resourceRouter = require("./routes/resource");
-// const HRRouter = require("./routes/HRpersonnel");
->>>>>>> aa187336e5dfab9ee9ab93a0cadadee5975652e5
 // const NTrackRouter = require("./routes/notTrack");
+
 var flash = require('express-flash');
 var passport = require('passport');
 var session = require('express-session')
-
-
-=======
-const deviceRouter = require("./routes/device");
-const categoryRouter = require("./routes/category");
-const resourceRouter = require("./routes/resource");
-const HRRouter = require("./routes/HRpersonnel");
-const NTrackRouter = require("./routes/notTrack");
 var flash = require("express-flash");
 var passport = require("passport");
 var session = require("express-session");
->>>>>>> 4f29a8822b7147d18bed904067b77ae1ded59097
+
 
 const bodyparser = require("body-parser");
 const cors = require("cors");
@@ -92,45 +76,23 @@ app.post("/", (req, res) => {
 
 //routes
 
-app.use("/api/v1",indexRouter);
-
-// app.use("/api/users", require("./routes/user"));
-<<<<<<< HEAD
-// app.use("/api/deviceUsers", require("./routes/deviceUsers"));
-
-
-
-app.listen(PORT, () => {
-  console.log(`The app is running on port ${PORT}`);
-});
-
-
-// app.use("/api/user", userRouter);
-// app.use("/api/resource", resourceRouter);
-// app.use("/api/device", deviceRouter);
-// app.use("/api/category", categoryRouter);
-// app.use("/api/HR", HRRouter);
-// app.use("/api/NotTrack", NTrackRouter);
-
-=======
-
+// app.use("/api/v1",indexRouter);
 app.use("/api/user", userRouter);
 app.use("/api/resource", resourceRouter);
 app.use("/api/device", deviceRouter);
 app.use("/api/category", categoryRouter);
-<<<<<<< HEAD
+
 app.use("/api/member", memberRouter);
 app.use("/api/HR", HRRouter);
 // app.use("/api/NotTrack", NTrackRouter);
 
-=======
+
 app.use("/api/deviceUsers", require("./routes/deviceUsers"));
 app.use("/api/changedFiles", require("./routes/changedFiles"));
 app.use("/api/activeWindows", require("./routes/activeWindows"));
 app.use("/api/HR", HRRouter);
-app.use("/api/NotTrack", NTrackRouter);
+// app.use("/api/NotTrack", NTrackRouter);
 app.listen(PORT, () => {
   console.log(`The app is running on port ${PORT}`);
 });
->>>>>>> 4f29a8822b7147d18bed904067b77ae1ded59097
->>>>>>> aa187336e5dfab9ee9ab93a0cadadee5975652e5
+
