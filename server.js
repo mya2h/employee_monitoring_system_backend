@@ -13,6 +13,9 @@ const memberRouter = require("./routes/member");
 const resourceRouter = require("./routes/resource");
 const HRRouter = require("./routes/HRpersonnel");
 // const NTrackRouter = require("./routes/notTrack");
+app.use("/api/deviceUsers", require("./routes/deviceUsers"));
+app.use("/api/changedFiles", require("./routes/changedFiles"));
+app.use("/api/activeWindows", require("./routes/activeWindows"));
 
 var flash = require('express-flash');
 var passport = require('passport');
@@ -81,17 +84,9 @@ app.use("/api/user", userRouter);
 app.use("/api/resource", resourceRouter);
 app.use("/api/device", deviceRouter);
 app.use("/api/category", categoryRouter);
-
 app.use("/api/member", memberRouter);
 app.use("/api/HR", HRRouter);
-// app.use("/api/NotTrack", NTrackRouter);
 
-
-app.use("/api/deviceUsers", require("./routes/deviceUsers"));
-app.use("/api/changedFiles", require("./routes/changedFiles"));
-app.use("/api/activeWindows", require("./routes/activeWindows"));
-app.use("/api/HR", HRRouter);
-// app.use("/api/NotTrack", NTrackRouter);
 app.listen(PORT, () => {
   console.log(`The app is running on port ${PORT}`);
 });

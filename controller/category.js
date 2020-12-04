@@ -41,6 +41,11 @@ module.exports.findById = (req, res) => {
         message: "category name is not empty",
       });
     }
+    Category.findOne({ categoryName: req.body.categoryName })
+    .then((result) => {
+      if (result) {
+        return res.status(400).json({ success: false, result: "Category name already exist" });
+      }
 
     const category = new Category({
         categoryName: categoryName,
@@ -56,6 +61,7 @@ module.exports.findById = (req, res) => {
           message: err.message || "Some error occurred while creating the new category.",
         });
       });
+    })
   };
 
   module.exports.registerMember = (req, res) => {
@@ -147,7 +153,8 @@ member
     };
 
     module.exports.findMemberByCategoryId = (req, res) => {
-      Member.find(req.params.categoryId)
+      categoryId = req.params.categoryId;
+      Member.find({categoryId:categoryId})
           .then((members) => {
             if (!members) {
               return res.status(404).send({
