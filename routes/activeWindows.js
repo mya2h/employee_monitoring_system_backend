@@ -43,7 +43,7 @@ router.post(
 
 //getting a changed file
 router.get(
-  "/:date",
+  "/app/:date",
   [
     check("date", "the date is required").not().isEmpty(),
   ],
