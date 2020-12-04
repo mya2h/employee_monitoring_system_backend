@@ -2,7 +2,6 @@ const express = require("express");
 const app = express();
 var fs = require("fs");
 const PORT = process.env.PORT || 5000;
-
 // const mongoUtil = require("./dao/dbConnection");
 const userRouter = require("./routes/user");
 

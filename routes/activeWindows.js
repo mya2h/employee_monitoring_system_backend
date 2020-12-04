@@ -43,20 +43,21 @@ router.post(
 
 //getting a changed file
 router.get(
-  "/:date/:deviceUserId",
+  "/:date",
   [
     check("date", "the date is required").not().isEmpty(),
-    check("deviceUserId", "the deviceUserId is required").not().isEmpty(),
   ],
   async (req, res) => {
     try {
-      const { date, deviceUserId } = req.params;
-      console.log(date, deviceUserId);
+      const { date } = req.params;
+      let query = {date};
+      console.log(req.query.deviceUserId)
+      if (req.query.deviceUser) {
+        query.deviceUserId = req.query.deviceUser;
+      }
+      console.log(query)
       const today = new Date().getDate();
-      const activeWindows = await ActiveWindow.find({
-        date,
-        deviceUser: deviceUserId,
-      }).populate("deviceUser", ["macAddress", "deviceName", "userName"]);
+      const activeWindows = await ActiveWindow.find(query).populate("deviceUser", ["macAddress", "deviceName", "userName"]);
       res.json(activeWindows);
     } catch (err) {
       console.error(err.message);
@@ -65,4 +66,28 @@ router.get(
   }
 );
 
+//getting a changed file
+router.get(
+  "/websites/:date/",
+  [
+    check("date", "the date is required").not().isEmpty(),
+  ],
+  async (req, res) => {
+    try {
+      const { date} = req.params;
+      const today = new Date().getDate();
+      let query = {date};
+      if (req.query.deviceUser) {
+        query.deviceUserId = req.query.deviceUser;
+      }
+      query.app = {$in: ["chrome", "ApplicationFrameHost", "firefox", "edge", "explorer", "opera", "safari"]}
+      const activeWindows = await ActiveWindow.find(query).populate("deviceUser", ["macAddress", "deviceName", "userName"]);
+      console.log(query);
+      res.json(activeWindows);
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send("Server Error");
+    }
+  }
+);
 module.exports = router;
