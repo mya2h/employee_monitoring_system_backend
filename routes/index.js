@@ -21,9 +21,9 @@ router.post("/user/reset/:token", userController.postresetwithtoken );
 
 router.get("/category/get/:id", categoryController.findById);
 router.get("/category/get", categoryController.findAll);
-router.post("/category/register", categoryController.register);
-router.put("/category/update/:id", categoryController.update);
-router.delete("/category/delete/:id", categoryController.delete);
+//router.post("/category/register", categoryController.register);
+//router.put("/category/update/:id", categoryController.update);
+//router.delete("/category/delete/:id", categoryController.delete);
 
 
 // Device Routes
