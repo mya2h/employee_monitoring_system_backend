@@ -21,7 +21,7 @@ module.exports.findById = (req, res) => {
       });
   };
   
-  module.exports.findAll = (req, res) => {
+  module.exports.findAllGroups = (req, res) => {
     Category.find()
       .sort({ devicename: -1 })
       .then((categorys) => {
@@ -147,8 +147,10 @@ member
     };
 
     module.exports.findMemberByCategoryId = (req, res) => {
-      Member.find(req.params.categoryId)
+      console.log(req.params.categoryId)
+      Member.find({categoryId:"5fc8e8703e7f750bb0822eaa" })
           .then((members) => {
+            console,console.log((members));
             if (!members) {
               return res.status(404).send({
                 message: "Member not found with id " + req.params.categoryId,
