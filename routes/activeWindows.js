@@ -40,24 +40,82 @@ router.post(
     }
   }
 );
+function sortOrder(list, key) {
+  return list.reduce((acc, val) => {
+      const index = acc.findIndex(i => i[key] == val[key]);
+      if (index != -1) {
+          // already there
+          acc[index].items.push(val);
+      } else {
+          // new one
+          const newObj = { items: [val] };
+          newObj[key] = val[key];
+          acc.push(newObj);
+      }
+      return acc;
+  }, []);
+}
 
-//getting a changed file
+function getSorted(item){
+  var mainValue = []
+  for(var i of item){
+    var entryFound = false;
+     var tempObject = {
+       app:i.app,
+       duration:i.duration,
+       date:i.date,
+       singleVal:[
+         {
+           title:i.title,
+           duration:i.duration
+         }
+       ]
+     }
+     for(var x of mainValue){
+       if(x.app === tempObject.app){
+        titleFound = false
+         for(val of x.singleVal){
+           if(val.title === tempObject.singleVal[0].title){
+            console.log(true)
+              val.duration = val.duration + tempObject.singleVal[0].duration
+              titleFound = true
+           }
+         }
+         if (!titleFound) {
+          x.singleVal.push(tempObject.singleVal[0]);
+        }
+         x.duration = x.duration+tempObject.duration
+         entryFound = true;
+         break;
+       }
+       else{
+
+       }
+     }
+     if (!entryFound) {
+      mainValue.push(tempObject);
+    }
+  }
+  return mainValue
+}
 router.get(
-  "/:date/:deviceUserId",
+  "/app/:date",
   [
     check("date", "the date is required").not().isEmpty(),
-    check("deviceUserId", "the deviceUserId is required").not().isEmpty(),
   ],
   async (req, res) => {
     try {
-      const { date, deviceUserId } = req.params;
-      console.log(date, deviceUserId);
+      const { date } = req.params;
+      let query = {date};
+      console.log(req.query.deviceUser)
+      if (req.query.deviceUser) {
+        query.deviceUser = req.query.deviceUser;
+      }
+      console.log(query)
       const today = new Date().getDate();
-      const activeWindows = await ActiveWindow.find({
-        date,
-        deviceUser: deviceUserId,
-      }).populate("deviceUser", ["macAddress", "deviceName", "userName"]);
-      res.json(activeWindows);
+      const activeWindows = await ActiveWindow.find(query).populate("deviceUser", ["macAddress", "deviceName", "userName"]);
+      const sorted = getSorted(activeWindows)
+      res.json(sorted);
     } catch (err) {
       console.error(err.message);
       res.status(500).send("Server Error");
@@ -65,4 +123,28 @@ router.get(
   }
 );
 
+//getting a changed file
+router.get(
+  "/websites/:date/",
+  [
+    check("date", "the date is required").not().isEmpty(),
+  ],
+  async (req, res) => {
+    try {
+      const { date} = req.params;
+      const today = new Date().getDate();
+      let query = {date};
+      if (req.query.deviceUser) {
+        query.deviceUser = req.query.deviceUser;
+      }
+      query.app = {$in: ["chrome", "ApplicationFrameHost", "firefox", "edge", "iexplore", "opera", "safari"]}
+      const activeWindows = await ActiveWindow.find(query).populate("deviceUser", ["macAddress", "deviceName", "userName"]);
+      console.log(query);
+      res.json(activeWindows);
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send("Server Error");
+    }
+  }
+);
 module.exports = router;

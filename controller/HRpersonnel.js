@@ -50,6 +50,7 @@ module.exports.findById = (req, res) => {
         firstName: firstName,
         lastName:lastName,
         email:email,
+        roleType:roleType,
         status:0
     });
 
@@ -68,7 +69,7 @@ module.exports.findById = (req, res) => {
   module.exports.activate = (req, res) => {
     HRpersonnel.findById(req.params.id)
     .then(hr => {
-        
+        console.log(hr)
         hr.status = 1;
         hr.save()
         .then(hr =>{
