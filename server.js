@@ -6,25 +6,13 @@ const PORT = process.env.PORT || 5000;
 // const mongoUtil = require("./dao/dbConnection");
 const userRouter = require("./routes/user");
 
-const indexRouter = require("./routes/index");
-const deviceRouter = require("./routes/device");
-const categoryRouter = require("./routes/category");
-// const memberRouter = require("./routes/member");
-const resourceRouter = require("./routes/resource");
-const HRRouter = require("./routes/HRpersonnel");
-// const NTrackRouter = require("./routes/notTrack");
-
-const indexRouter = require("./routes/index");
+// const indexRouter = require("./routes/index");
 const deviceRouter = require("./routes/device");
 const categoryRouter = require("./routes/category");
 const memberRouter = require("./routes/member");
 const resourceRouter = require("./routes/resource");
 const HRRouter = require("./routes/HRpersonnel");
 // const NTrackRouter = require("./routes/notTrack");
-app.use("/api/deviceUsers", require("./routes/deviceUsers"));
-app.use("/api/changedFiles", require("./routes/changedFiles"));
-app.use("/api/activeWindows", require("./routes/activeWindows"));
-
 
 var flash = require('express-flash');
 var passport = require('passport');
@@ -39,8 +27,6 @@ const cors = require("cors");
 const path = require("path");
 const connectDB = require("./config/db");
 connectDB();
-
-
 
 app.use(function(req, res, next) {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -82,17 +68,13 @@ app.post("/", (req, res) => {
 
 //routes
 
-
-app.use("/api/v1",indexRouter);
-
-
+// app.use("/api/v1",indexRouter);
 app.use("/api/user", userRouter);
 app.use("/api/resource", resourceRouter);
 app.use("/api/device", deviceRouter);
 app.use("/api/category", categoryRouter);
 
-
-// app.use("/api/member", memberRouter);
+app.use("/api/member", memberRouter);
 app.use("/api/HR", HRRouter);
 // app.use("/api/NotTrack", NTrackRouter);
 
@@ -105,11 +87,3 @@ app.use("/api/HR", HRRouter);
 app.listen(PORT, () => {
   console.log("The app is running on port ${PORT}");
 });
-
-app.use("/api/member", memberRouter);
-app.use("/api/HR", HRRouter);
-
-app.listen(PORT, () => {
-  console.log(`The app is running on port ${PORT}`);
-});
-
