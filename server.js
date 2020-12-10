@@ -28,24 +28,16 @@ const path = require("path");
 const connectDB = require("./config/db");
 connectDB();
 
-app.use((req, res, next) => {
-  // Control access to clients
-  res.header("Access-Control-Allow-Origin", "*");
-
-  // Control allowed headers
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept, Authorization"
-  );
-
-  if (req.method == "OPTIONS") {
-    // Set allowed HTTP methods
-    req.header("Access-Control-Allow-Methods", "GET, POST, PUT, PATCH, DELETE");
-    return res.status(200).json({});
-  }
-
+app.use(function(req, res, next) {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type,X-Total-Count');
+  res.header('Access-Control-Expose-Headers', 'X-Total-Count')
+  res.setHeader('Access-Control-Allow-Credentials', true);
   next();
 });
+
+app.use(cors());
 passport.serializeUser(function (user, done) {
   done(null, user.id);
 });
@@ -95,4 +87,3 @@ app.use("/api/HR", HRRouter);
 app.listen(PORT, () => {
   console.log(`The app is running on port ${PORT}`);
 });
-

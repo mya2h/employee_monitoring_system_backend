@@ -137,10 +137,23 @@ router.get(
       if (req.query.deviceUser) {
         query.deviceUser = req.query.deviceUser;
       }
-      query.app = {$in: ["chrome", "ApplicationFrameHost", "firefox", "edge", "iexplore", "opera", "safari"]}
-      const activeWindows = await ActiveWindow.find(query).populate("deviceUser", ["macAddress", "deviceName", "userName"]);
-      console.log(query);
-      res.json(activeWindows);
+      query.app = {$in: ["chrome", "ApplicationFrameHost", "firefox", "edge", "explorer", "opera", "safari"]}
+      let activeWindows = await ActiveWindow.find(query).populate("deviceUser", ["macAddress", "deviceName", "userName"]);
+      let activeWebsites = activeWindows.map(activewindow => {
+        let activewebsite = {}
+        activewebsite.duration = activewindow.duration;
+        activewebsite.date = activewindow.date;
+        activewebsite._id = activewindow._id;
+        activewebsite.deviceUser = activewindow.deviceUser;
+        activewebsite.app = activewindow.app;
+        activewebsite.title = activewindow.title;
+        let titleAsArray = activewindow.title.split("- ")
+        if (titleAsArray.length >= 3) {
+          const host = titleAsArray[titleAsArray.length - 2];
+          activewebsite.host = host;
+        }return activewebsite
+      })
+      res.json(activeWebsites);
     } catch (err) {
       console.error(err.message);
       res.status(500).send("Server Error");
