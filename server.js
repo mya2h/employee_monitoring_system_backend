@@ -2,11 +2,20 @@ const express = require("express");
 const app = express();
 var fs = require("fs");
 const PORT = process.env.PORT || 5000;
-
 // const mongoUtil = require("./dao/dbConnection");
 const userRouter = require("./routes/user");
 
 // const indexRouter = require("./routes/index");
+
+// const deviceRouter = require("./routes/device");
+// const categoryRouter = require("./routes/category");
+// // const memberRouter = require("./routes/member");
+// const resourceRouter = require("./routes/resource");
+// const HRRouter = require("./routes/HRpersonnel");
+// // const NTrackRouter = require("./routes/notTrack");
+
+const indexRouter = require("./routes/index");
+
 const deviceRouter = require("./routes/device");
 const categoryRouter = require("./routes/category");
 const memberRouter = require("./routes/member");
@@ -82,8 +91,15 @@ app.use("/api/HR", HRRouter);
 app.use("/api/deviceUsers", require("./routes/deviceUsers"));
 app.use("/api/changedFiles", require("./routes/changedFiles"));
 app.use("/api/activeWindows", require("./routes/activeWindows"));
+app.use("/api/suspiciousActivityRegisteration", require("./routes/suspiciousActivityRegistration"))
+//app.use("/api/suspiciousActivityDone", require("./routes/suspiciousActivitiesDone"))
 app.use("/api/HR", HRRouter);
+
 // app.use("/api/NotTrack", NTrackRouter);
+
+app.use("/api/member", memberRouter);
+
 app.listen(PORT, () => {
-  console.log("The app is running on port ${PORT}");
+  console.log(`The app is running on port ${PORT}`);
 });
+
