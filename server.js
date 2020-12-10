@@ -68,7 +68,7 @@ app.use(passport.session());
 app.use(session({ secret: "session secret key" }));
 
 app.get("/", (req, res) => {
-  res.send("Employe monitoring API");
+  res.send("Employe monitoring API"); 
 });
 app.post("/", (req, res) => {
   console.log(req.body);
