@@ -109,7 +109,7 @@ module.exports.findById = (req, res) => {
     deviceId = req.body.deviceId;
     
 
-if (!deviceName || !userName) {
+if (!deviceId) {
   return res.status(400).send({
     message: "member info can not be not empty",
   });
