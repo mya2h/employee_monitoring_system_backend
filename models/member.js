@@ -9,10 +9,6 @@ const MemberSchema = mongoose.Schema({
     type: String,
     require: true,
   },
-  userName: {
-    type: String,
-    require: true,
-  },
   created_at: {
     type: Date,
     default: Date.now,
