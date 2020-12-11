@@ -126,19 +126,19 @@ const login = (req, res) => {
             config.secret,
             { expiresIn: 70000 }
           );
-          return res.json({
+          return res.status(200).json({
             token: token,
             status:200,
             message: "logged in",
           });
         } else {
-          return res.json({ 
+          return res.status(400).json({ 
             message: "Auth failed" });
         }
       });
     })
     .catch((err) => {
-      res.json({
+      res.status(400).json({
         result: err,
         message: "Auth failed",
       });

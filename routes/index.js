@@ -21,9 +21,9 @@ router.post("/user/reset/:token", userController.postresetwithtoken );
 
 router.get("/category/get/:id", categoryController.findById);
 router.get("/category/get", categoryController.findAll);
-router.post("/category/register", categoryController.register);
-router.put("/category/update/:id", categoryController.update);
-router.delete("/category/delete/:id", categoryController.delete);
+//router.post("/category/register", categoryController.register);
+//router.put("/category/update/:id", categoryController.update);
+//router.delete("/category/delete/:id", categoryController.delete);
 
 
 // Device Routes
@@ -43,6 +43,14 @@ router.get("/hr/allusers", HRController.findAll);
 router.post("/hr/register", HRController.register);
 router.put("/hr/activate/:id",HRController.activate);
 router.put("/hr/deactivate/:id",HRController.deactivate);
+router.post("/signin", HRController.login);
+router.post("/signup", HRController.register);
+router.get("/logout", HRController.logout);
+router.get("/forgot", userController.getForgot);
+router.post("/forgot", userController.forgot);
+router.get("/reset/:token", userController.getresetwithtoken );
+router.post("/reset/:token", userController.postresetwithtoken );
+router.get("/allusers",userController.getUsers)
 
 
 
