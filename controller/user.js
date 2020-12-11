@@ -127,9 +127,11 @@ const login = (req, res) => {
             { expiresIn: 70000 }
           );
           return res.status(200).json({
+            roleType:result.roleType,
             token: token,
             status:200,
-            message: "logged in",
+            message: "logged in in",
+            
           });
         } else {
           return res.status(400).json({ 

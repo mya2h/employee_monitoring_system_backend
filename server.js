@@ -97,7 +97,7 @@ app.use("/api/HR", HRRouter);
 
 // app.use("/api/NotTrack", NTrackRouter);
 
-app.use("/api/member", memberRouter);
+// app.use("/api/member", memberRouter);
 
 app.listen(PORT, () => {
   console.log(`The app is running on port ${PORT}`);
