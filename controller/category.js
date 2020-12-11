@@ -64,36 +64,6 @@ module.exports.findById = (req, res) => {
     })
   };
 
-  module.exports.registerMember = (req, res) => {
-    categoryId = req.params.id;
-    deviceName = req.body.deviceName;
-    userName = req.body.userName;
-
-if (!deviceName || !userName) {
-  return res.status(400).send({
-    message: "member info can not be not empty",
-  });
-}
-
-const member = new Member({
-   categoryId: categoryId,
-    deviceName: deviceName,
-    userName: userName,
-});
-
-member
-  .save()
-  .then((data) => {
-    res.send(data);
-  })
-  .catch((err) => {
-    res.status(500).send({
-      message: err.message || "Some error occurred while creating the new member.",
-    });
-  });
-};
-
-
   module.exports.deleteCategory = (req, res) => {
     Category.findByIdAndRemove(req.params.id)
       .then((category) => {
@@ -133,6 +103,35 @@ member
         });
       });
   };
+
+  module.exports.registerMember = (req, res) => {
+    categoryId = req.params.id;
+    deviceId = req.body.deviceId;
+    
+
+if (!deviceId) {
+  return res.status(400).send({
+    message: "member info can not be not empty",
+  });
+}
+
+const member = new Member({
+   categoryId: categoryId,
+    deviceId: deviceId,
+    
+});
+
+member
+  .save()
+  .then((data) => {
+    res.send(data);
+  })
+  .catch((err) => {
+    res.status(500).send({
+      message: err.message || "Some error occurred while creating the new member.",
+    });
+  });
+};
 
   module.exports.findMemberById = (req, res) => {
     Member.findById(req.params.id)
