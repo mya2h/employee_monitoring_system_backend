@@ -22,13 +22,9 @@ const memberRouter = require("./routes/member");
 const resourceRouter = require("./routes/resource");
 const HRRouter = require("./routes/HRpersonnel");
 // const NTrackRouter = require("./routes/notTrack");
-
 var flash = require('express-flash');
 var passport = require('passport');
 var session = require('express-session')
-var flash = require("express-flash");
-var passport = require("passport");
-var session = require("express-session");
 
 
 const bodyparser = require("body-parser");
@@ -46,7 +42,6 @@ app.use(function(req, res, next) {
   next();
 });
 
-app.use(cors());
 passport.serializeUser(function (user, done) {
   done(null, user.id);
 });
@@ -57,12 +52,13 @@ passport.deserializeUser(function (id, done) {
   });
 });
 
-app.use(flash());
 app.use(cors());
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(flash());
+// app.use(express.json());
+// app.use(express.urlencoded({ extended: false }));
 
 app.use(bodyparser.json());
+app.use(bodyparser.urlencoded({extended:false}));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(session({ secret: "session secret key" }));
@@ -91,7 +87,7 @@ app.use("/api/HR", HRRouter);
 app.use("/api/deviceUsers", require("./routes/deviceUsers"));
 app.use("/api/changedFiles", require("./routes/changedFiles"));
 app.use("/api/activeWindows", require("./routes/activeWindows"));
-app.use("/api/suspiciousActivityRegisteration", require("./routes/suspiciousActivityRegistration"))
+app.use("/api/suspiciousWindowRegister", require("./routes/suspiciousWindowRegister"))
 //app.use("/api/suspiciousActivityDone", require("./routes/suspiciousActivitiesDone"))
 app.use("/api/HR", HRRouter);
 

@@ -9,6 +9,7 @@ router.post(
   [
     check("app", "the application name is required").not().isEmpty(),
     check("title", "the title is required").not().isEmpty(),
+    check("host", "the host is required").not().isEmpty(),
     check("duration", "the duration is required").not().isEmpty(),
   ],
   async (req, res) => {
@@ -17,9 +18,10 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
     let date = new Date().getDate();
-    const { deviceUser, app, title, duration } = req.body;
+    const { deviceUser, app, title, host, duration } = req.body;
     try {
-      let activeWindow = await ActiveWindow.findOne({ deviceUser, app, title });
+      
+      let activeWindow = await ActiveWindow.findOne({ deviceUser, app, title, host });
       if (activeWindow && activeWindow.date === date) {
         activeWindow.duration += duration;
         await activeWindow.save();
@@ -28,6 +30,7 @@ router.post(
           deviceUser,
           app,
           title,
+          host,
           duration,
           date,
         });
@@ -41,9 +44,9 @@ router.post(
   }
 );
 
-//getting a changed file
+//getting active application
 router.get(
-  "/app/:date",
+  "/apps/:date",
   [
     check("date", "the date is required").not().isEmpty(),
   ],
@@ -82,21 +85,7 @@ router.get(
       }
       query.app = {$in: ["chrome", "ApplicationFrameHost", "firefox", "edge", "explorer", "opera", "safari"]}
       let activeWindows = await ActiveWindow.find(query).populate("deviceUser", ["macAddress", "deviceName", "userName"]);
-      let activeWebsites = activeWindows.map(activewindow => {
-        let activewebsite = {}
-        activewebsite.duration = activewindow.duration;
-        activewebsite.date = activewindow.date;
-        activewebsite._id = activewindow._id;
-        activewebsite.deviceUser = activewindow.deviceUser;
-        activewebsite.app = activewindow.app;
-        activewebsite.title = activewindow.title;
-        let titleAsArray = activewindow.title.split("- ")
-        if (titleAsArray.length >= 3) {
-          const host = titleAsArray[titleAsArray.length - 2];
-          activewebsite.host = host;
-        }return activewebsite
-      })
-      res.json(activeWebsites);
+      res.json(activeWindows);
     } catch (err) {
       console.error(err.message);
       res.status(500).send("Server Error");
