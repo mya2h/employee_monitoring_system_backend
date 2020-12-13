@@ -1,6 +1,8 @@
 var path = require('path');
 const Category = require("../models/category");
 const Member = require("../models/member");
+const Device = require("../models/deviceUser");
+const { request } = require('http');
 
 
 module.exports.findById = (req, res) => {
@@ -116,26 +118,27 @@ if (deviceId.length === 0) {
 }
 
 for (var i = 0; i < deviceId.length; i++) {
-  console.log(deviceId[i]);
+  // console.log(deviceId[i]);
   Member.findOne({ deviceId: deviceId[i]})
 .then((result) => {
   if (result) {
     return res.status(400).json({ success: false, result:   `Member${deviceId}already exist` });
   }
+})
+  console.log(deviceId[i]);
     const member = new Member({
       categoryId: categoryId,
-      deviceId: deviceId,
+      deviceId: deviceId[i],
        
    });
+   
    member
    .save()
    .then((data) => {
      res.send(data);
    })
-  })
-
    .catch((err) => {
-     res.status(500).send({
+     res.status(400).send({
        message: err.message || "Some error occurred while creating the new member.",
      });
    });
@@ -162,16 +165,39 @@ for (var i = 0; i < deviceId.length; i++) {
     };
 
     module.exports.findMemberByCategoryId = (req, res) => {
-      categoryId = req.params.categoryId;
-      Member.find({categoryId:categoryId})
+      category_Id = req.params.categoryId;
+
+      Member.find({categoryId:category_Id})
           .then((members) => {
             if (!members) {
               return res.status(404).send({
                 message: "Member not found with id " + req.params.categoryId,
               });
             }
-            res.status(200).send(members);
+            for(i =0; i < members.length ; i++)
+            {
+              console.log(members[i].deviceId);
+            }
+            
+            device = "5fd3d2415c94d10f30c74000"
+           Device.find({_id : device})
+           .then((device) => {
+            if (!device) {
+              return res.status(404).send({
+                message: "Device information not found with id " + req.params.categoryId,
+              });
+            }
+            // console.log(device);
+           res.status(200).send(device);
+           
+             
           })
+          .catch((err) => {
+            return res.status(500).send({
+              message: "Error retrieving member with id " + req.params.categoryId,
+            });
+          });
+        })
           .catch((err) => {
             return res.status(500).send({
               message: "Error retrieving member with id " + req.params.categoryId,

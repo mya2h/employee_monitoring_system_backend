@@ -23,7 +23,8 @@ module.exports.findById = (req, res) => {
 
 
   module.exports.findAll = (req, res) => {
-    HRpersonnel.find()
+    roleType = "HRpersonnel"
+    HRpersonnel.find({roleType:roleType})
       .sort({firstName: -1 })
       .then((hrs) => {
         res.status(200).send(hrs);
@@ -39,6 +40,7 @@ module.exports.findById = (req, res) => {
         firstName = req.body.firstName;
         lastName = req.body.lastName;
         email = req.body.email;
+        activated = "activated";
          roleType = req.body.roleType;
     if (!firstName || !lastName || !email || !roleType) {
       return res.status(400).send({
@@ -51,7 +53,7 @@ module.exports.findById = (req, res) => {
         lastName:lastName,
         email:email,
         roleType:roleType,
-        status:0
+        status:activated
     });
 
     hr
@@ -70,7 +72,7 @@ module.exports.findById = (req, res) => {
     HRpersonnel.findById(req.params.id)
     .then(hr => {
         console.log(hr)
-        hr.status = 1;
+        hr.status = "activated";
         hr.save()
         .then(hr =>{
             res.send({message: 'HR activated successfully',status:'success', hr: hr})
@@ -86,7 +88,7 @@ module.exports.findById = (req, res) => {
     HRpersonnel.findById(req.params.id)
     .then(hr => {
         
-        hr.status = 0;
+        hr.status = "deactivated";
         hr.save()
         .then(hr =>{
             res.send({message: 'HR deactivated successfully',status:'success', hr: hr})
