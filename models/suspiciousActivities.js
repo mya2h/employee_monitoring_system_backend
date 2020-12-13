@@ -1,15 +1,12 @@
 const mongoose = require('mongoose')
 
 const suspiciousActivitiesSchema = mongoose.Schema({
-    device_id:{
+    deviceId:{
         type:String
     },
-    activtiy_name:{
-        type:String
-    },
-    activity_type:{
+    file:{
         type:String
     },
 
 })
-module.exports = Suspicious = mongoose.model('suspicious',suspiciousActivitiesSchema)
+module.exports = mongoose.model('Suspicious',suspiciousActivitiesSchema)

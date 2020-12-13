@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const SuspiciousActivityRegisteration = require("../models/suspiciousActivityRegisteration");
+
 router.post(
     "/",
     async (req, res) => {
@@ -37,4 +38,5 @@ router.post(
         res.status(200).json(result)
     })
   })
+
   module.exports = router;

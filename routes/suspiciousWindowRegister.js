@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const suspiciousWindowRegisteration = require("../models/suspiciousWindowRegisteration");
+const suspicious = require("../controller/suspiciousActivities")
 router.post(
     "/",
     async (req, res) => {
@@ -63,6 +64,7 @@ router.get(
         }
     }
   );
-
-
+  router.post("/file",suspicious.registerSuspiciousFiles)
+  router.get("/file",suspicious.getSuspiciousFiles)
+  router.get("/file/:id",suspicious.getSuspiciousFileById)
   module.exports = router;
