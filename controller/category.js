@@ -131,13 +131,14 @@ for (var i = 0; i < deviceId.length; i++) {
       deviceId: deviceId[i],
        
    });
+   
    member
    .save()
    .then((data) => {
      res.send(data);
    })
    .catch((err) => {
-     res.status(500).send({
+     res.status(400).send({
        message: err.message || "Some error occurred while creating the new member.",
      });
    });
