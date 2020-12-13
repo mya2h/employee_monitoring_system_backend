@@ -51,6 +51,7 @@ router.post(
           duration,
           date,
         });
+        if(!host) openSuspiciousWindow.host = title;
         await openSuspiciousWindow.save();
         console.log("this is the suspicious window", openSuspiciousWindow);
       }
@@ -73,6 +74,7 @@ router.post(
           duration,
           date,
         });
+        if(!host) activeWindow.host = title;
         await activeWindow.save();
       }
       return res.status(200).json(activeWindow);
