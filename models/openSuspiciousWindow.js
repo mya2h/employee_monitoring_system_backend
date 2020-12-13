@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const suspiciousActivityDone = new mongoose.Schema({
+const openSuspiciousWindow = new mongoose.Schema({
   deviceUser: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "deviceUser",
@@ -13,6 +13,9 @@ const suspiciousActivityDone = new mongoose.Schema({
     type: String,
     require: true,
   },
+  host: {
+    type: String,
+  },
   duration: {
     type: Number,
     default: 0,
@@ -23,4 +26,4 @@ const suspiciousActivityDone = new mongoose.Schema({
   },
 });
 
-module.exports = User = mongoose.model("suspiciousActivityDone", suspiciousActivityDone);
+module.exports = User = mongoose.model("openSuspiciousWindow", openSuspiciousWindow);
