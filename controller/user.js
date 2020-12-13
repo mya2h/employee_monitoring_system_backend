@@ -308,10 +308,12 @@ const postresetwithtoken = (req, res) => {
     login,
     profile,
     // getUsers,
+    //getUsers,
     logout,
     getForgot,
     forgot,
     getresetwithtoken,
     postresetwithtoken,
     // getuserByName
+    //getuserByName
  }

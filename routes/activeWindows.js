@@ -150,7 +150,7 @@ function getSortedWebsites(item){
   for(var i of item){
     var entryFound = false;
      var tempObject = {
-       app:i.app,
+       host:i.host,
        duration:i.duration,
        date:i.date,
        singleVal:[
@@ -161,7 +161,7 @@ function getSortedWebsites(item){
        ]
      }
      for(var x of mainValue){
-       if(x.app === tempObject.app){
+       if(x.host === tempObject.host){
         titleFound = false
          for(val of x.singleVal){
            if(val.title === tempObject.singleVal[0].title){
@@ -229,7 +229,8 @@ router.get(
       }
       query.app = {$in: ["chrome", "ApplicationFrameHost", "firefox", "edge", "explorer", "opera", "safari"]}
       let activeWindows = await ActiveWindow.find(query).populate("deviceUser", ["macAddress", "deviceName", "userName"]);
-      res.json(activeWindows);
+      const sorted = getSortedWebsites(activeWindows)
+      res.json(sorted);
     } catch (err) {
       console.error(err.message);
       res.status(500).send("Server Error");
