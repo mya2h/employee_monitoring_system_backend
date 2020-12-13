@@ -122,12 +122,13 @@ const login = (req, res) => {
               _id: result._id,
               userName: result.userName,
               email: result.email,
+              roleType:result.roleType,
             },
             config.secret,
             { expiresIn: 70000 }
           );
           return res.status(200).json({
-            roleType:result.roleType,
+            
             token: token,
             status:200,
             message: "logged in in",

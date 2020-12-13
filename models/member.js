@@ -6,7 +6,7 @@ const MemberSchema = mongoose.Schema({
     require: true,
   },
   deviceId: {
-    type: Array,
+    type: String,
     require: true,
   },
   created_at: {

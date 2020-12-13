@@ -1,6 +1,7 @@
 var path = require('path');
 const Category = require("../models/category");
 const Member = require("../models/member");
+const Device = require("../models/deviceUser");
 
 
 module.exports.findById = (req, res) => {
@@ -116,15 +117,17 @@ if (deviceId.length === 0) {
 }
 
 for (var i = 0; i < deviceId.length; i++) {
-  console.log(deviceId[i]);
+  // console.log(deviceId[i]);
   Member.findOne({ deviceId: deviceId[i]})
 .then((result) => {
   if (result) {
     return res.status(400).json({ success: false, result:   `Member${deviceId}already exist` });
   }
+})
+  console.log(deviceId[i]);
     const member = new Member({
       categoryId: categoryId,
-      deviceId: deviceId,
+      deviceId: deviceId[i],
        
    });
    member
@@ -132,8 +135,6 @@ for (var i = 0; i < deviceId.length; i++) {
    .then((data) => {
      res.send(data);
    })
-  })
-
    .catch((err) => {
      res.status(500).send({
        message: err.message || "Some error occurred while creating the new member.",
@@ -162,15 +163,34 @@ for (var i = 0; i < deviceId.length; i++) {
     };
 
     module.exports.findMemberByCategoryId = (req, res) => {
-      categoryId = req.params.categoryId;
-      Member.find({categoryId:categoryId})
+      category_Id = req.params.categoryId;
+
+      Member.find({categoryId:category_Id})
           .then((members) => {
             if (!members) {
               return res.status(404).send({
                 message: "Member not found with id " + req.params.categoryId,
               });
             }
-            res.status(200).send(members);
+            // console.log(members.length);
+            for(i = 0; i < members.length; i++){
+              // for(j = 0; j < members[i].deviceId.length; j++){
+              // console.log(members[i].deviceId[j].deviceId);
+            //   Device.find({_id:member[i].categoryId})
+            //   .then((member) => {
+            //     console.log(member);
+            // res.status(200).send(members);
+            // })
+            // .catch((err) => {
+            //   return res.status(500).send({
+            //     message: "Error retrieving member device name  with id " + req.params.categoryId,
+            //   });
+            // });
+           
+          
+        }
+        res.status(200).send(members);
+             
           })
           .catch((err) => {
             return res.status(500).send({
