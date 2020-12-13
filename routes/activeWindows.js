@@ -20,7 +20,11 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
     let date = new Date().getDate();
-    const { deviceUser, app, title, host, duration } = req.body;
+    let openSuspiciousWindow;
+    let { deviceUser, app, title, host, duration } = req.body;
+    if (!host) {
+      host = title;
+    }
     try {
      //check if it is suspicious window.
      let isSuspicious = null;
@@ -37,11 +41,13 @@ router.post(
       //console.log("title is suspicious", isSuspicious);
      }
      if (isSuspicious) {
-      let openSuspiciousWindow = await OpenSuspiciousWindow.findOne({ deviceUser, app, title, host});
+       openSuspiciousWindow = await OpenSuspiciousWindow.findOne({ deviceUser, app, title, host});
       if (openSuspiciousWindow && openSuspiciousWindow.date === date) {
         openSuspiciousWindow.duration += duration;
         await openSuspiciousWindow.save();
-        console.log("there have been")
+        openSuspiciousWindow.isSuspicious = true;
+        console.log("this is the opened suspicious\n", openSuspiciousWindow)
+        //res.json(openSuspiciousWindow)
       }else{
         const openSuspiciousWindow = new OpenSuspiciousWindow({
           deviceUser,
@@ -51,7 +57,7 @@ router.post(
           duration,
           date,
         });
-        if(!host) openSuspiciousWindow.host = title;
+        //if(!host) openSuspiciousWindow.host = title;
         await openSuspiciousWindow.save();
         console.log("this is the suspicious window", openSuspiciousWindow);
       }
@@ -74,10 +80,11 @@ router.post(
           duration,
           date,
         });
-        if(!host) activeWindow.host = title;
+        //if(!host) activeWindow.host = title;
         await activeWindow.save();
       }
-      return res.status(200).json(activeWindow);
+      //return res.status(200).json({msg:"activewindow registered."});
+      return res.json(openSuspiciousWindow)
     } catch (error) {
       console.error(error.message);
       res.status(500).send("Server error");

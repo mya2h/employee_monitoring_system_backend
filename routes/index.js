@@ -10,7 +10,7 @@ const HRController=require("../controller/HRpersonnel")
 // User Routes
 
 router.post("/user/authenticate", userController.login);
-router.post("/user/register", userController.register);
+//router.post("/user/register", userController.register);
 router.get("/user/logout", userController.logout);
 router.get("/user/forgot", userController.getForgot);
 router.post("/user/forgot", userController.forgot);
@@ -50,7 +50,11 @@ router.get("/forgot", userController.getForgot);
 router.post("/forgot", userController.forgot);
 router.get("/reset/:token", userController.getresetwithtoken );
 router.post("/reset/:token", userController.postresetwithtoken );
+<<<<<<< HEAD
 
+=======
+//router.get("/allusers",userController.getUsers)
+>>>>>>> 5df5682aad8d8bbd509a9c27499c44874bb2d23b
 
 
 
