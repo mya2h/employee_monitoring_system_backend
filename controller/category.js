@@ -109,28 +109,38 @@ module.exports.findById = (req, res) => {
     deviceId = req.body.deviceId;
     
 
-if (!deviceId) {
+if (deviceId.length === 0) {
   return res.status(400).send({
     message: "member info can not be not empty",
   });
 }
 
-const member = new Member({
-   categoryId: categoryId,
-    deviceId: deviceId,
-    
-});
-
-member
-  .save()
-  .then((data) => {
-    res.send(data);
+for (var i = 0; i < deviceId.length; i++) {
+  console.log(deviceId[i]);
+  Member.findOne({ deviceId: deviceId[i]})
+.then((result) => {
+  if (result) {
+    return res.status(400).json({ success: false, result:   `Member${deviceId}already exist` });
+  }
+    const member = new Member({
+      categoryId: categoryId,
+      deviceId: deviceId,
+       
+   });
+   member
+   .save()
+   .then((data) => {
+     res.send(data);
+   })
   })
-  .catch((err) => {
-    res.status(500).send({
-      message: err.message || "Some error occurred while creating the new member.",
-    });
-  });
+
+   .catch((err) => {
+     res.status(500).send({
+       message: err.message || "Some error occurred while creating the new member.",
+     });
+   });
+  
+}
 };
 
   module.exports.findMemberById = (req, res) => {
@@ -172,7 +182,7 @@ member
 
     module.exports.findMemberAll = (req, res) => {
       Member.find()
-        .sort({ deviceName: -1 })
+        // .sort({ deviceName: -1 })
         .then((members) => {
           res.status(200).send(members);
         })
