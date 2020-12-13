@@ -140,6 +140,48 @@ function getSorted(item){
   }
   return mainValue
 }
+function getSortedWebsites(item){
+  var mainValue = []
+  for(var i of item){
+    var entryFound = false;
+     var tempObject = {
+       app:i.app,
+       duration:i.duration,
+       date:i.date,
+       singleVal:[
+         {
+           title:i.title,
+           duration:i.duration
+         }
+       ]
+     }
+     for(var x of mainValue){
+       if(x.app === tempObject.app){
+        titleFound = false
+         for(val of x.singleVal){
+           if(val.title === tempObject.singleVal[0].title){
+            console.log(true)
+              val.duration = val.duration + tempObject.singleVal[0].duration
+              titleFound = true
+           }
+         }
+         if (!titleFound) {
+          x.singleVal.push(tempObject.singleVal[0]);
+        }
+         x.duration = x.duration+tempObject.duration
+         entryFound = true;
+         break;
+       }
+       else{
+
+       }
+     }
+     if (!entryFound) {
+      mainValue.push(tempObject);
+    }
+  }
+  return mainValue
+}
 //getting active application
 router.get(
   "/apps/:date",
