@@ -2,6 +2,8 @@ const express = require("express");
 const router = express.Router();
 const { check, validationResult } = require("express-validator");
 const ActiveWindow = require("../models/activeWindow");
+const SuspiciousWindowRegisteration = require("../models/suspiciousWindowRegisteration");
+const OpenSuspiciousWindow = require("../models/openSuspiciousWindow");
 
 //posting file changed.
 router.post(
@@ -20,8 +22,46 @@ router.post(
     let date = new Date().getDate();
     const { deviceUser, app, title, host, duration } = req.body;
     try {
+     //check if it is suspicious window.
+     let isSuspicious = null;
+     if (app && !isSuspicious) {
+      isSuspicious = await SuspiciousWindowRegisteration.findOne({app});
+      //console.log("app is suspicious", isSuspicious);
+     }
+     if (host && !isSuspicious) {
+      isSuspicious = await SuspiciousWindowRegisteration.findOne({title:host});
+      //console.log("host is suspicious", isSuspicious);
+     }
+     if (title && !isSuspicious) {
+      isSuspicious = await SuspiciousWindowRegisteration.findOne({title});
+      //console.log("title is suspicious", isSuspicious);
+     }
+     if (isSuspicious) {
+      let openSuspiciousWindow = await OpenSuspiciousWindow.findOne({ deviceUser, app, title, host});
+      if (openSuspiciousWindow && openSuspiciousWindow.date === date) {
+        openSuspiciousWindow.duration += duration;
+        await openSuspiciousWindow.save();
+        console.log("there have been")
+      }else{
+        const openSuspiciousWindow = new OpenSuspiciousWindow({
+          deviceUser,
+          app,
+          title,
+          host,
+          duration,
+          date,
+        });
+        if(!host) openSuspiciousWindow.host = title;
+        await openSuspiciousWindow.save();
+        console.log("this is the suspicious window", openSuspiciousWindow);
+      }
+        //return res.status(200).json(openSuspiciousWindow);
       
-      let activeWindow = await ActiveWindow.findOne({ deviceUser, app, title, host });
+     }
+     //end of checking if it is suspicious window.
+
+
+      let activeWindow = await ActiveWindow.findOne({ deviceUser, app, title, host});
       if (activeWindow && activeWindow.date === date) {
         activeWindow.duration += duration;
         await activeWindow.save();
@@ -34,6 +74,7 @@ router.post(
           duration,
           date,
         });
+        if(!host) activeWindow.host = title;
         await activeWindow.save();
       }
       return res.status(200).json(activeWindow);
