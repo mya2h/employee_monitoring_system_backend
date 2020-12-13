@@ -1,7 +1,7 @@
 var path = require('path');
 const category = require('../models/category');
 const Device = require("../models/device");
-var userName = process.env['USERPROFILE'].split(path.sep)[2];
+var userName = process.env['USERPROFILE'];
 var computerName = process.env['COMPUTERNAME'];
 
 var loginId1 = path.join("domainName",userName);

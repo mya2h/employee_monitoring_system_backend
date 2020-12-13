@@ -5,12 +5,8 @@ const MemberSchema = mongoose.Schema({
     type: String,
     require: true,
   },
-  deviceName: {
-    type: String,
-    require: true,
-  },
-  userName: {
-    type: String,
+  deviceId: {
+    type: Array,
     require: true,
   },
   created_at: {

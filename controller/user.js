@@ -6,6 +6,47 @@ const config = require('../config/default');
 
 //const config = require("../config/config");
 
+
+const getUsers = (req, res) => {
+  User
+    .find({})
+    .then((result) => {
+      if (!result) return res.json({ succes: true, result: "No result found" });
+      return res.json({ succes: true, result: result });
+    })
+    .catch((err) => {
+      return res.json({ succes: false, result: err });
+    });
+};
+const getuserByName = (req, res) => {
+  User
+    .findOne({ userName: req.body.userName })
+    .then((result) => {
+      if (!req.body.userName)
+        return res.json({
+          succes: false,
+          message: "Please enter the userName",
+        });
+      return res.json({ succes: true, result: result });
+    })
+    .catch((err) => {
+      return res.json({ succes: false, result: true });
+    });
+};
+const profile = (req, res) => {
+  User.findById(req.params.id)
+    .then((result) => {
+      if (!req.params.id)
+        return res.json({
+          succes: false,
+          message: "User does not exist",
+        });
+      return res.json({ succes: true, result: result });
+    })
+    .catch((err) => {
+      return res.json({ succes: false, result: true });
+    });
+};
 const register = (req, res) => {
   let newUser = new User({
     firstName: req.body.firstName,
@@ -86,9 +127,11 @@ const login = (req, res) => {
             { expiresIn: 70000 }
           );
           return res.status(200).json({
+            roleType:result.roleType,
             token: token,
             status:200,
-            message: "logged in",
+            message: "logged in in",
+            
           });
         } else {
           return res.status(400).json({ 
@@ -254,48 +297,8 @@ const postresetwithtoken = (req, res) => {
     }
   );
 };
-// /get authenticated user profile
 
-const profile = (req, res) => {
-  // console.log(req.user);
-  jwt.verify(req.token, config.secret, (err, authData) => {
-    if (err) {
-      res.sendStatus(403);
-    } else {
-      res.json({
-        message: "user profile",
-        authData,
-      });
-    }
-  });
-};
 
-const getUsers = (req, res) => {
-  user
-    .find({})
-    .then((result) => {
-      if (!result) return res.json({ succes: true, result: "No result found" });
-      return res.json({ succes: true, result: result });
-    })
-    .catch((err) => {
-      return res.json({ succes: false, result: err });
-    });
-};
-const getuserByName = (req, res) => {
-  user
-    .findOne({ userName: req.body.userName })
-    .then((result) => {
-      if (!req.body.userName)
-        return res.json({
-          succes: false,
-          message: "Please enter the userName",
-        });
-      return res.json({ succes: true, result: result });
-    })
-    .catch((err) => {
-      return res.json({ succes: false, result: true });
-    });
-};
  module.exports = {
     register,
     login,

@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const SuspicousActivity = new mongoose.Schema({
+const SuspicousWindow = new mongoose.Schema({
 
   app: {
     type: String,
@@ -12,4 +12,4 @@ const SuspicousActivity = new mongoose.Schema({
   },
 });
 
-module.exports = User = mongoose.model("suspiciousActivity", SuspicousActivity);
+module.exports = User = mongoose.model("suspiciousWindow", SuspicousWindow);

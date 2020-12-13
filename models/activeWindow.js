@@ -12,6 +12,10 @@ const activeWindow = new mongoose.Schema({
   title: {
     type: String,
     require: true,
+  },  
+  host: {
+    type: String,
+    require: true,
   },
   duration: {
     type: Number,
