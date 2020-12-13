@@ -2,6 +2,7 @@ var path = require('path');
 const Category = require("../models/category");
 const Member = require("../models/member");
 const Device = require("../models/deviceUser");
+const { request } = require('http');
 
 
 module.exports.findById = (req, res) => {
@@ -173,26 +174,30 @@ for (var i = 0; i < deviceId.length; i++) {
                 message: "Member not found with id " + req.params.categoryId,
               });
             }
-            // console.log(members.length);
-            for(i = 0; i < members.length; i++){
-              // for(j = 0; j < members[i].deviceId.length; j++){
-              // console.log(members[i].deviceId[j].deviceId);
-            //   Device.find({_id:member[i].categoryId})
-            //   .then((member) => {
-            //     console.log(member);
-            // res.status(200).send(members);
-            // })
-            // .catch((err) => {
-            //   return res.status(500).send({
-            //     message: "Error retrieving member device name  with id " + req.params.categoryId,
-            //   });
-            // });
+            for(i =0; i < members.length ; i++)
+            {
+              console.log(members[i].deviceId);
+            }
+            
+            device = "5fd3d2415c94d10f30c74000"
+           Device.find({_id : device})
+           .then((device) => {
+            if (!device) {
+              return res.status(404).send({
+                message: "Device information not found with id " + req.params.categoryId,
+              });
+            }
+            // console.log(device);
+           res.status(200).send(device);
            
-          
-        }
-        res.status(200).send(members);
              
           })
+          .catch((err) => {
+            return res.status(500).send({
+              message: "Error retrieving member with id " + req.params.categoryId,
+            });
+          });
+        })
           .catch((err) => {
             return res.status(500).send({
               message: "Error retrieving member with id " + req.params.categoryId,
