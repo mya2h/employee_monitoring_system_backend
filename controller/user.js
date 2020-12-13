@@ -8,33 +8,33 @@ const HRpersonnel = require("../models/HRpersonnel");
 //const config = require("../config/config");
 
 
-const getUsers = (req, res) => {
-  roleType = "HRpersonnel"
-  User
-    .find({roleType:roleType})
-    .then((result) => {
-      if (!result) return res.json({ succes: true, result: "No result found" });
-      return res.json({ succes: true, result: result });
-    })
-    .catch((err) => {
-      return res.json({ succes: false, result: err });
-    });
-};
-const getuserByName = (req, res) => {
-  User
-    .findOne({ userName: req.body.userName })
-    .then((result) => {
-      if (!req.body.userName)
-        return res.json({
-          succes: false,
-          message: "Please enter the userName",
-        });
-      return res.json({ succes: true, result: result });
-    })
-    .catch((err) => {
-      return res.json({ succes: false, result: true });
-    });
-};
+// const getUsers = (req, res) => {
+//   roleType = "HRpersonnel"
+//   User
+//     .find({roleType:roleType})
+//     .then((result) => {
+//       if (!result) return res.json({ succes: true, result: "No result found" });
+//       return res.json({ succes: true, result: result });
+//     })
+//     .catch((err) => {
+//       return res.json({ succes: false, result: err });
+//     });
+// };
+// const getuserByName = (req, res) => {
+//   User
+//     .findOne({ userName: req.body.userName })
+//     .then((result) => {
+//       if (!req.body.userName)
+//         return res.json({
+//           succes: false,
+//           message: "Please enter the userName",
+//         });
+//       return res.json({ succes: true, result: result });
+//     })
+//     .catch((err) => {
+//       return res.json({ succes: false, result: true });
+//     });
+// };
 const profile = (req, res) => {
   User.findById(req.params.id)
     .then((result) => {
@@ -49,13 +49,14 @@ const profile = (req, res) => {
       return res.json({ succes: false, result: true });
     });
 };
-const register = (req, res) => {
+const registerSuperAdmin = (req, res) => {
+  roleType = "SuperAdmin"
   let newUser = new User({
     firstName: req.body.firstName,
     lastName: req.body.lastName,
     userName: req.body.userName,
     email: req.body.email,
-    roleType:req.body.roleType,
+    roleType:roleType,
     password: req.body.password
   });
 
@@ -303,7 +304,7 @@ const postresetwithtoken = (req, res) => {
 
 
  module.exports = {
-    register,
+    registerSuperAdmin,
     login,
     profile,
     getUsers,

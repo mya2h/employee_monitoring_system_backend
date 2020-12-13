@@ -4,7 +4,7 @@ const userController = require("../controller/user");
 const file = require("../controller/filePath")
 // routes
 router.post("/signin", userController.login);
-router.post("/signup", userController.register);
+router.post("/signup", userController.registerSuperAdmin );
 router.get("/logout", userController.logout);
 router.get("/forgot", userController.getForgot);
 router.post("/forgot", userController.forgot);
