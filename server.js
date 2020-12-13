@@ -14,7 +14,7 @@ const userRouter = require("./routes/user");
 // const HRRouter = require("./routes/HRpersonnel");
 // // const NTrackRouter = require("./routes/notTrack");
 
-const indexRouter = require("./routes/index");
+// const indexRouter = require("./routes/index");
 
 const deviceRouter = require("./routes/device");
 const categoryRouter = require("./routes/category");

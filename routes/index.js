@@ -50,7 +50,7 @@ router.get("/forgot", userController.getForgot);
 router.post("/forgot", userController.forgot);
 router.get("/reset/:token", userController.getresetwithtoken );
 router.post("/reset/:token", userController.postresetwithtoken );
-router.get("/allusers",userController.getUsers)
+
 
 
 
