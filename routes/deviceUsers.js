@@ -12,12 +12,10 @@ router.post(
     check("userName", "the user name is required").not().isEmpty(),
   ],
   async (req, res) => {
-    console.log("the request is ", req.body)
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
-    console.log(req.body)
     const { macAddress, deviceName, userName } = req.body;
 
     try {

@@ -83,12 +83,11 @@ app.use("/api/member", memberRouter);
 app.use("/api/HR", HRRouter);
 // app.use("/api/NotTrack", NTrackRouter);
 
-
 app.use("/api/deviceUsers", require("./routes/deviceUsers"));
 app.use("/api/changedFiles", require("./routes/changedFiles"));
 app.use("/api/activeWindows", require("./routes/activeWindows"));
-app.use("/api/suspiciousWindowRegister", require("./routes/suspiciousWindowRegister"))
-//app.use("/api/suspiciousActivityDone", require("./routes/suspiciousActivitiesDone"))
+app.use("/api/suspiciousWindowRegister", require("./routes/suspiciousWindowRegister"));
+app.use("/api/openSuspiciousWindows", require("./routes/openSuspiciousWindows"))
 app.use("/api/HR", HRRouter);
 
 // app.use("/api/NotTrack", NTrackRouter);
