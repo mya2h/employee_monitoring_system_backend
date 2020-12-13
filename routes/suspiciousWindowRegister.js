@@ -12,7 +12,13 @@ router.post(
         }
         if (title) {
             const pos1 = title.indexOf("//")
-            const startPos = pos1 + 2;
+            let startPos;
+            if (pos1 == -1) {
+                startPos = 0;
+            } else {
+              startPos = pos1 + 2;  
+            }
+            
             const endPos = title.indexOf("/", startPos)
             const host = title.slice(startPos, endPos);
             const strArray = host.split(".");
