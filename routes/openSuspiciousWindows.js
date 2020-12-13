@@ -2,15 +2,9 @@ const express = require("express");
 const router = express.Router();
 const { check, validationResult } = require("express-validator");
 const OpenSuspiciousWindow = require("../models/openSuspiciousWindow");
-router.get("/:date",
-        [
-          check("date", "the date is required").not().isEmpty(),
-        ],
+router.get("/",
     async (req, res) => {
-      const errors = validationResult(req);
-      if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
-      }
+
       try {
         const { date } = req.params;
       let query = {date};

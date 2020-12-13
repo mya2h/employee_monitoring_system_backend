@@ -20,7 +20,10 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
     let date = new Date().getDate();
-    const { deviceUser, app, title, host, duration } = req.body;
+    let { deviceUser, app, title, host, duration } = req.body;
+    if (!host) {
+      host = title;
+    }
     try {
      //check if it is suspicious window.
      let isSuspicious = null;
@@ -51,7 +54,7 @@ router.post(
           duration,
           date,
         });
-        if(!host) openSuspiciousWindow.host = title;
+        //if(!host) openSuspiciousWindow.host = title;
         await openSuspiciousWindow.save();
         console.log("this is the suspicious window", openSuspiciousWindow);
       }
@@ -74,7 +77,7 @@ router.post(
           duration,
           date,
         });
-        if(!host) activeWindow.host = title;
+        //if(!host) activeWindow.host = title;
         await activeWindow.save();
       }
       return res.status(200).json(activeWindow);
