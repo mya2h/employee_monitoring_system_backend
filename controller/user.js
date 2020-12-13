@@ -307,11 +307,11 @@ const postresetwithtoken = (req, res) => {
     registerSuperAdmin,
     login,
     profile,
-    getUsers,
+    // getUsers,
     logout,
     getForgot,
     forgot,
     getresetwithtoken,
     postresetwithtoken,
-    getuserByName
+    // getuserByName
  }

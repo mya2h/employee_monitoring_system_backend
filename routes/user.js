@@ -10,7 +10,7 @@ router.get("/forgot", userController.getForgot);
 router.post("/forgot", userController.forgot);
 router.get("/reset/:token", userController.getresetwithtoken );
 router.post("/reset/:token", userController.postresetwithtoken );
-router.get("/allusers",userController.getUsers)
+// router.get("/allusers",userController.getUsers)
 router.get("/profile/:id",userController.profile)
 // router.delete("/:id", userController._delete);
 
