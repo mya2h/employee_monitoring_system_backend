@@ -3,13 +3,15 @@ const express = require("express");
 const jwt = require("jsonwebtoken");
 const User = require("../models/user");
 const config = require('../config/default');
+const HRpersonnel = require("../models/HRpersonnel");
 
 //const config = require("../config/config");
 
 
 const getUsers = (req, res) => {
+  roleType = "HRpersonnel"
   User
-    .find({})
+    .find({roleType:roleType})
     .then((result) => {
       if (!result) return res.json({ succes: true, result: "No result found" });
       return res.json({ succes: true, result: result });

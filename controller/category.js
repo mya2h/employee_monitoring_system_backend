@@ -131,6 +131,7 @@ for (var i = 0; i < deviceId.length; i++) {
       deviceId: deviceId[i],
        
    });
+   
    member
    .save()
    .then((data) => {
