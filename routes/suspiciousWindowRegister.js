@@ -19,8 +19,8 @@ router.post(
               startPos = pos1 + 2;  
             }
             
-            const endPos = title.indexOf("/", startPos + 1)
-            const host = title.slice(startPos, endPos);
+            const endPos = title.indexOf("/", startPos)
+            const host = title.slice(startPos, endPos + 1);
             const strArray = host.split(".");
             if (strArray[0] == "www") {
                 query.title = strArray[1];

@@ -82,7 +82,7 @@ router.post(
         //if(!host) activeWindow.host = title;
         await activeWindow.save();
       }
-      return res.status(200).json(activeWindow);
+      return res.status(200).json({msg:"activewindow registered."});
     } catch (error) {
       console.error(error.message);
       res.status(500).send("Server error");
