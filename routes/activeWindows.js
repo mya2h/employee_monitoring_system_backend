@@ -44,7 +44,9 @@ router.post(
       if (openSuspiciousWindow && openSuspiciousWindow.date === date) {
         openSuspiciousWindow.duration += duration;
         await openSuspiciousWindow.save();
-        console.log("there have been")
+        openSuspiciousWindow.isSuspicious = true;
+        console.log("this is the opened suspicious\n", openSuspiciousWindow)
+        res.json(openSuspiciousWindow)
       }else{
         const openSuspiciousWindow = new OpenSuspiciousWindow({
           deviceUser,
