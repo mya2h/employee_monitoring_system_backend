@@ -20,7 +20,8 @@ router.post(
               startPos = pos1 + 2;  
             }
             
-            const endPos = title.indexOf("/", startPos + 1)
+            const pos2 = title.indexOf("/", startPos);
+            const endPos = pos2 === -1? title.length: pos2;
             const host = title.slice(startPos, endPos);
             const strArray = host.split(".");
             if (strArray[0] == "www") {

@@ -1,5 +1,7 @@
 var path = require('path');
 const HRpersonnel = require("../models/HRpersonnel");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 
 module.exports.findById = (req, res) => {
@@ -37,37 +39,71 @@ module.exports.findById = (req, res) => {
   };
 
   module.exports.register = (req, res) => {
-        firstName = req.body.firstName;
-        lastName = req.body.lastName;
-        email = req.body.email;
-        activated = "activated";
-         roleType = req.body.roleType;
-    if (!firstName || !lastName || !email || !roleType) {
-      return res.status(400).send({
-        message: "please fill correctly",
-      });
-    }
-
-    const hr = new HRpersonnel({
-        firstName: firstName,
-        lastName:lastName,
-        email:email,
+      roleType = "HRpersonnel";
+      activate = "activated";
+      let newHRpersonnel = new HRpersonnel({
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        userName: req.body.userName,
+        email: req.body.email,
         roleType:roleType,
-        status:activated
-    });
+        status:activate,
+        password: req.body.password
+      });
+    
+      if(req.body.password == req.body.confirm_password){
+        HRpersonnel.findOne({ userName: req.body.userName })
+        .then((result) => {
+          if (result) {
+            return res.status(400).json({ success: false, result: "user name already exist" });
+          }
+    
+          HRpersonnel.findOne({ email: req.body.email })
+          .then((result) => {
+            if (result) {
+              return res.status(400).json({ success: false, result: "email already exist" });
+            }
+    
+          bcrypt.genSalt(10, (err, salt) => {
+            if (err)
+              return res.status(400).json({
+                succes: false,
+                result: err,
+                message: "password hass error",
+              });
+            bcrypt.hash(newHRpersonnel.password, salt, (err, hash) => {
+              if (err) return res.status(400).json({ succes: false, result: err });
 
-    hr
-      .save()
-      .then((data) => {
-        res.send(data);
+              newHRpersonnel.password = hash;
+              console.log("password hash", newHRpersonnel);
+              newHRpersonnel
+                .save()
+                .then((result) => {
+                  return res.status(200).json({
+                    succes: true,
+                    result: result,
+                    message: "user successfuly registered",
+                  });
+                })
+                .catch((err) => {
+                  return res.status(400).json({ succes: false, result: err, message: "registration fail !" });
+                });
+            });
+          });
+        })
+        .catch((err) => {
+          return res.status(400).json({ succes: false, result: err, message: "registration fail !!" });
+        });
       })
       .catch((err) => {
-        res.status(500).send({
-          message: err.message || "Some error occurred while creating the new HRpersonnel.",
-        });
+        return res.status(400).json({ succes: false, result: err, message: "registration fail !!!" });
       });
-  };
-
+    }else{
+      return res.status(409).json({
+          message:'password not match!!!!'
+      });
+    }
+    };
   module.exports.activate = (req, res) => {
     HRpersonnel.findById(req.params.id)
     .then(hr => {

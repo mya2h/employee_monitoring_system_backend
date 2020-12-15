@@ -3,7 +3,7 @@ const router = express.Router();
 const config = require("config");
 const { check, validationResult } = require("express-validator");
 const DeviceUser = require("../models/deviceUser");
-
+const DoNotTrack = require("../controller/doNotTrack")
 router.post(
   "/",
   [
@@ -52,5 +52,6 @@ router.get("/", async (req, res) => {
     res.status(500).send("Server Error");
   }
 });
-
+router.post("/doNotTrack",DoNotTrack.addUserToDoNotTrack)
+router.get("/doNotTrack",DoNotTrack.getNotTrackedUser)
 module.exports = router;

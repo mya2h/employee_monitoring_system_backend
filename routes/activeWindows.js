@@ -20,6 +20,7 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
     let date = new Date().getDate();
+    let openSuspiciousWindow;
     let { deviceUser, app, title, host, duration } = req.body;
     if (!host) {
       host = title;
@@ -40,13 +41,13 @@ router.post(
       //console.log("title is suspicious", isSuspicious);
      }
      if (isSuspicious) {
-      let openSuspiciousWindow = await OpenSuspiciousWindow.findOne({ deviceUser, app, title, host});
+       openSuspiciousWindow = await OpenSuspiciousWindow.findOne({ deviceUser, app, title, host});
       if (openSuspiciousWindow && openSuspiciousWindow.date === date) {
         openSuspiciousWindow.duration += duration;
         await openSuspiciousWindow.save();
         openSuspiciousWindow.isSuspicious = true;
         console.log("this is the opened suspicious\n", openSuspiciousWindow)
-        res.json(openSuspiciousWindow)
+        //res.json(openSuspiciousWindow)
       }else{
         const openSuspiciousWindow = new OpenSuspiciousWindow({
           deviceUser,
@@ -82,7 +83,8 @@ router.post(
         //if(!host) activeWindow.host = title;
         await activeWindow.save();
       }
-      return res.status(200).json(activeWindow);
+      //return res.status(200).json({msg:"activewindow registered."});
+      return res.json(openSuspiciousWindow)
     } catch (error) {
       console.error(error.message);
       res.status(500).send("Server error");
